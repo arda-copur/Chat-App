@@ -1,4 +1,5 @@
 
+import 'package:chat_app/views/home_view.dart';
 import 'package:chat_app/views/sign_up_view.dart';
 import 'package:flutter/material.dart';
 
@@ -166,7 +167,9 @@ class _SignInViewState extends State<SignInView> {
                                     setState(() {
                                       email = userMailController.text;
                                       password = userPasswordController.text;
-                                    }); }
+                                    }); } 
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const HomeView()));
+                                    
                                 },
                                 child: Center(
                                   child: SizedBox(

@@ -1,5 +1,10 @@
-import 'package:chat_app/views/sign_in_view.dart';
+import 'package:chat_app/services/database.dart';
+import 'package:chat_app/services/shared_pref.dart';
+import 'package:chat_app/views/home_view.dart';
 import 'package:flutter/material.dart';
+import 'package:chat_app/views/sign_in_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:random_string/random_string.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
@@ -10,12 +15,54 @@ class SignUpView extends StatefulWidget {
 
 class _SignUpViewState extends State<SignUpView> {
   String email = "", password = "", name = "", confirmPassword = "";
+  //default profile photo
+  final String defaultPhotoUrl = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
 
-  TextEditingController mailcontroller = TextEditingController();
-  TextEditingController passwordcontroller = TextEditingController();
-  TextEditingController namecontroller = TextEditingController();
-  TextEditingController confirmPasswordcontroller = TextEditingController();
+  TextEditingController mailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  
+registration() async {
+  if (password.isNotEmpty && password == confirmPassword) {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
 
+      //random user id for firebase
+       String id = randomAlphaNumeric(10); 
+
+      Map<String,dynamic>userInfoMap = {
+        "Name": nameController.text,
+        "E-mail": mailController.text,
+        //for users primary usernames
+        "Username": mailController.text.replaceAll("@gmail.com", ""),
+        "Photo": defaultPhotoUrl,
+
+        "id": id,
+      };
+
+      await DatabaseMethods().addUserDetails(userInfoMap, id);
+      await SharedPreferenceHelper().saveUserId(id);
+      await SharedPreferenceHelper().saveUserDisplayName(nameController.text);
+      await SharedPreferenceHelper().saveUserEmail(mailController.text);
+      await SharedPreferenceHelper().saveUserPic(defaultPhotoUrl);
+      await SharedPreferenceHelper().saveUserName(mailController.text.replaceAll("@gmail.com", ""));
+      
+
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Kayıt Başarılı")));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeView()));
+    } on FirebaseAuthException catch(e) {
+      if (e.code == 'weak-password') {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Şifre zayıf")));
+      }
+      else if (e.code == 'email-already-in-use') {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Email zaten kayıtlı")));
+      }
+    }
+
+  }
+}
+ 
   final _formkey = GlobalKey<FormState>();
 
   @override
@@ -93,7 +140,7 @@ class _SignUpViewState extends State<SignUpView> {
                                         width: 1.0, color: Colors.black38),
                                     borderRadius: BorderRadius.circular(10)),
                                 child: TextFormField(
-                                  controller: namecontroller,
+                                  controller: nameController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Please Enter Name';
@@ -127,7 +174,7 @@ class _SignUpViewState extends State<SignUpView> {
                                         width: 1.0, color: Colors.black38),
                                     borderRadius: BorderRadius.circular(10)),
                                 child: TextFormField(
-                                  controller: mailcontroller,
+                                  controller: mailController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return " Lütfen email giriniz";
@@ -161,7 +208,7 @@ class _SignUpViewState extends State<SignUpView> {
                                         width: 1.0, color: Colors.black38),
                                     borderRadius: BorderRadius.circular(10)),
                                 child: TextFormField(
-                                  controller: passwordcontroller,
+                                  controller: passwordController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return ' Lütfen şifre giriniz';
@@ -196,7 +243,7 @@ class _SignUpViewState extends State<SignUpView> {
                                         width: 1.0, color: Colors.black38),
                                     borderRadius: BorderRadius.circular(10)),
                                 child: TextFormField(
-                                  controller: confirmPasswordcontroller,
+                                  controller: confirmPasswordController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return ' Lütfen şifrenizi tekrar giriniz';
@@ -250,12 +297,13 @@ class _SignUpViewState extends State<SignUpView> {
                     onTap: () {
                       if (_formkey.currentState!.validate()) {
                         setState(() {
-                          email = mailcontroller.text;
-                          name = namecontroller.text;
-                          password = passwordcontroller.text;
-                          confirmPassword = confirmPasswordcontroller.text;
+                          email = mailController.text;
+                          name = nameController.text;
+                          password = passwordController.text;
+                          confirmPassword = confirmPasswordController.text;
                         });
                       }
+                      registration();
                     },
                     child: Center(
                       child: Container(

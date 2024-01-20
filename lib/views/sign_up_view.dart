@@ -30,6 +30,7 @@ registration() async {
 
       //random user id for firebase
        String id = randomAlphaNumeric(10); 
+       String user = mailController.text.replaceAll("@gmail.com", "");
 
       Map<String,dynamic>userInfoMap = {
         "Name": nameController.text,

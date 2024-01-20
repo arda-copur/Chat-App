@@ -1,7 +1,10 @@
-
+import 'package:chat_app/services/database.dart';
+import 'package:chat_app/services/shared_pref.dart';
+import 'package:flutter/material.dart';
 import 'package:chat_app/views/home_view.dart';
 import 'package:chat_app/views/sign_up_view.dart';
-import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class SignInView extends StatefulWidget {
@@ -12,11 +15,38 @@ class SignInView extends StatefulWidget {
 }
 
 class _SignInViewState extends State<SignInView> {
-
-  TextEditingController userMailController =  TextEditingController();
-  TextEditingController userPasswordController =  TextEditingController();
-  String email = "", password = "", name = "", confirmPassword = "";
+  
+  String email = "", password = "", name = "", pic = "", username = "", id = "";
+  final TextEditingController userMailController =  TextEditingController();
+  final TextEditingController userPasswordController =  TextEditingController();
   final _formkey = GlobalKey<FormState>();
+
+  userLogin() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+
+      QuerySnapshot querySnapshot = await DatabaseMethods().getUserByEmail(email);
+      
+      name = "${querySnapshot.docs[0]["Name"]}";
+      username="${querySnapshot.docs[0]["Username"]}";
+      pic="${querySnapshot.docs[0]["Photo"]}";
+      id=querySnapshot.docs[0].id;
+
+      await SharedPreferenceHelper().saveUserDisplayName(name);
+      await SharedPreferenceHelper().saveUserName(username);
+      await SharedPreferenceHelper().saveUserId(id);
+      await SharedPreferenceHelper().saveUserPic(pic);
+
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeView()));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Kullanıcı bulunamadı")));
+      }
+      else if (e.code == 'wrong-password') {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Yanlış şifre")));
+      }
+    }
+  }
 
 
 
@@ -168,7 +198,8 @@ class _SignInViewState extends State<SignInView> {
                                       email = userMailController.text;
                                       password = userPasswordController.text;
                                     }); } 
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const HomeView()));
+                                    userLogin();
+                                   
                                     
                                 },
                                 child: Center(

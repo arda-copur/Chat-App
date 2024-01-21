@@ -30,13 +30,17 @@ registration() async {
 
       //random user id for firebase
        String id = randomAlphaNumeric(10); 
+
        String user = mailController.text.replaceAll("@gmail.com", "");
+       String updateUserName = user.replaceAll(user[0], user[0].toUpperCase());
+       String firstLetter = user.substring(0,1).toUpperCase();
 
       Map<String,dynamic>userInfoMap = {
         "Name": nameController.text,
         "E-mail": mailController.text,
         //for users primary usernames
-        "Username": mailController.text.replaceAll("@gmail.com", ""),
+        "Username": updateUserName,
+        "Search":firstLetter,
         "Photo": defaultPhotoUrl,
 
         "id": id,

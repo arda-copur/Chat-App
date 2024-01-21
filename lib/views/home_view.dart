@@ -3,6 +3,7 @@ import 'package:chat_app/views/chat_view.dart';
 import 'package:chat_app/views/sign_in_view.dart';
 import 'package:chat_app/views/sign_up_view.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -29,7 +30,14 @@ class _HomeViewState extends State<HomeView> {
     });
     var capitalizedValue = value.substring(0,1).toUpperCase() + value.substring(1);
     if(queryResultSet.length == 0 && value.length == 1) {
-
+      DatabaseMethods().search(value).then((QuerySnapshot docs) 
+      {
+              for (int i=0; i<docs.docs.length; ++i) {
+                queryResultSet.add(docs.docs[i].data());
+              }
+      }
+      );
+       
     }
    }
 

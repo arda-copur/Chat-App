@@ -12,6 +12,10 @@ class DatabaseMethods {
     return await FirebaseFirestore.instance.collection("users").where("E-mail", isEqualTo: email).get();
   }
 
+  Future <QuerySnapshot> search(String username) async {
+    return await FirebaseFirestore.instance.collection("users").where("SearchKey",isEqualTo: username.substring(0,1).toUpperCase()).get();
+  }
+
    signOut() async{
      return await FirebaseAuth.instance.signOut();
   }

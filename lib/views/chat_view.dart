@@ -1,3 +1,5 @@
+import 'package:chat_app/constants/project_paddings.dart';
+import 'package:chat_app/constants/project_radius.dart';
 import 'package:flutter/material.dart';
 
 class ChatView extends StatefulWidget {
@@ -17,7 +19,7 @@ class _ChatViewState extends State<ChatView> {
         child: Column(
           children: [
             const Padding(
-              padding: EdgeInsets.only(left: 10.0),
+              padding: ProjectPaddings.onlyLeft(),
               child: Row(
                 children: [
                   Icon(
@@ -47,12 +49,12 @@ class _ChatViewState extends State<ChatView> {
               decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
+                      topLeft: ProjectRadius.circularLarge(),
                       topRight: Radius.circular(30))),
               child: Column(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: const ProjectPaddings.allNormal(),
                     margin: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width / 2),
                     alignment: Alignment.bottomRight,
@@ -72,7 +74,7 @@ class _ChatViewState extends State<ChatView> {
                   ),
                   const SizedBox(height: 20.0,),
                   Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: const ProjectPaddings.allNormal(),
                     margin: EdgeInsets.only(
                         right: MediaQuery.of(context).size.width / 3),
                     alignment: Alignment.topLeft,
@@ -92,7 +94,7 @@ class _ChatViewState extends State<ChatView> {
                   ),
                   const SizedBox(height: 20.0,),
                    Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: const ProjectPaddings.allNormal(),
                     margin: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width / 4),
                     alignment: Alignment.bottomRight,
@@ -112,7 +114,7 @@ class _ChatViewState extends State<ChatView> {
                   ),
                    const SizedBox(height: 20.0,),
                   Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: const ProjectPaddings.allNormal(),
                     margin: EdgeInsets.only(
                         right: MediaQuery.of(context).size.width / 1.7),
                     alignment: Alignment.topLeft,
@@ -132,7 +134,7 @@ class _ChatViewState extends State<ChatView> {
                   ),
                    const SizedBox(height: 20.0,),
                    Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: const ProjectPaddings.allNormal(),
                     margin: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width / 4),
                     alignment: Alignment.bottomRight,
@@ -152,7 +154,7 @@ class _ChatViewState extends State<ChatView> {
                   ),
                     const SizedBox(height: 20.0,),
                   Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: const ProjectPaddings.allNormal(),
                     margin: EdgeInsets.only(
                         right: MediaQuery.of(context).size.width / 3),
                     alignment: Alignment.topLeft,
@@ -175,7 +177,7 @@ class _ChatViewState extends State<ChatView> {
                     elevation: 5.0,
                      borderRadius: BorderRadius.circular(30),
                     child: Container(
-                      padding: const EdgeInsets.all(10),
+                      padding: const ProjectPaddings.allNormal(),
                       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(30)),
                       child: Row(children: [
                       const Expanded(
@@ -184,7 +186,7 @@ class _ChatViewState extends State<ChatView> {
                         ),
                       ),
                   Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: const ProjectPaddings.allNormal(),
                     decoration: BoxDecoration(color: const Color(0xFFf3f3f3), borderRadius: BorderRadius.circular(60)),
                     child: const Center(child: Icon(Icons.send, color: Color(0xFF553370),)))
                     ],),),

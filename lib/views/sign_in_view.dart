@@ -1,3 +1,6 @@
+import 'package:chat_app/constants/project_borders.dart';
+import 'package:chat_app/constants/project_elevations.dart';
+import 'package:chat_app/constants/project_paddings.dart';
 import 'package:chat_app/services/database.dart';
 import 'package:chat_app/services/shared_pref.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +8,6 @@ import 'package:chat_app/views/home_view.dart';
 import 'package:chat_app/views/sign_up_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 
 class SignInView extends StatefulWidget {
   const SignInView({super.key});
@@ -15,40 +17,41 @@ class SignInView extends StatefulWidget {
 }
 
 class _SignInViewState extends State<SignInView> {
-  
   String email = "", password = "", name = "", pic = "", username = "", id = "";
-  final TextEditingController userMailController =  TextEditingController();
-  final TextEditingController userPasswordController =  TextEditingController();
+  final TextEditingController userMailController = TextEditingController();
+  final TextEditingController userPasswordController = TextEditingController();
   final _formkey = GlobalKey<FormState>();
 
   userLogin() async {
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
 
-      QuerySnapshot querySnapshot = await DatabaseMethods().getUserByEmail(email);
-      
+      QuerySnapshot querySnapshot =
+          await DatabaseMethods().getUserByEmail(email);
+
       name = "${querySnapshot.docs[0]["Name"]}";
-      username="${querySnapshot.docs[0]["Username"]}";
-      pic="${querySnapshot.docs[0]["Photo"]}";
-      id=querySnapshot.docs[0].id;
+      username = "${querySnapshot.docs[0]["Username"]}";
+      pic = "${querySnapshot.docs[0]["Photo"]}";
+      id = querySnapshot.docs[0].id;
 
       await SharedPreferenceHelper().saveUserDisplayName(name);
       await SharedPreferenceHelper().saveUserName(username);
       await SharedPreferenceHelper().saveUserId(id);
       await SharedPreferenceHelper().saveUserPic(pic);
 
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeView()));
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const HomeView()));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Kullanıcı bulunamadı")));
-      }
-      else if (e.code == 'wrong-password') {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Yanlış şifre")));
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Kullanıcı bulunamadı")));
+      } else if (e.code == 'wrong-password') {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text("Yanlış şifre")));
       }
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +71,7 @@ class _SignInViewState extends State<SignInView> {
                         bottom: Radius.elliptical(
                             MediaQuery.of(context).size.width, 105)))),
             Padding(
-              padding: const EdgeInsets.only(top: 70.0),
+              padding: const ProjectPaddings.onlyTop() * 7,
               child: Column(
                 children: [
                   const Center(
@@ -91,11 +94,11 @@ class _SignInViewState extends State<SignInView> {
                     height: 20.0,
                   ),
                   Container(
-                    margin:
-                        const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 20.0, horizontal: 20.0),
                     child: Material(
-                      elevation: 5.0,
-                      borderRadius: BorderRadius.circular(10),
+                      elevation: ProjectElevations.normal.value,
+                      borderRadius: ProjectBorders.circularSmall(),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                             vertical: 50.0, horizontal: 20.0),
@@ -103,7 +106,7 @@ class _SignInViewState extends State<SignInView> {
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
+                            borderRadius: ProjectBorders.circularSmall()),
                         child: Form(
                           key: _formkey,
                           child: Column(
@@ -123,7 +126,8 @@ class _SignInViewState extends State<SignInView> {
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         width: 1.0, color: Colors.black38),
-                                    borderRadius: BorderRadius.circular(10)),
+                                    borderRadius:
+                                        ProjectBorders.circularSmall()),
                                 child: TextFormField(
                                   controller: userMailController,
                                   validator: (value) {
@@ -197,23 +201,22 @@ class _SignInViewState extends State<SignInView> {
                                     setState(() {
                                       email = userMailController.text;
                                       password = userPasswordController.text;
-                                    }); } 
-                                    userLogin();
-                                   
-                                    
+                                    });
+                                  }
+                                  userLogin();
                                 },
                                 child: Center(
                                   child: SizedBox(
                                     width: 150,
                                     child: Material(
                                       elevation: 5.0,
-                                      borderRadius: BorderRadius.circular(10),
+                                      borderRadius: ProjectBorders.circularSmall(),
                                       child: Container(
-                                        padding: const EdgeInsets.all(10),
+                                        padding: const ProjectPaddings.allNormal(),
                                         decoration: BoxDecoration(
                                             color: const Color(0xFF6380fb),
                                             borderRadius:
-                                                BorderRadius.circular(10)),
+                                                ProjectBorders.circularSmall(),),
                                         child: const Center(
                                             child: Text(
                                           "Giriş",
@@ -245,8 +248,10 @@ class _SignInViewState extends State<SignInView> {
                       ),
                       GestureDetector(
                         onTap: () {
-                         
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>  const SignUpView()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SignUpView()));
                         },
                         child: const Text(
                           " Şimdi üye ol!",

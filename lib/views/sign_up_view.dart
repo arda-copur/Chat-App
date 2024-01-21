@@ -1,3 +1,5 @@
+import 'package:chat_app/constants/project_borders.dart';
+import 'package:chat_app/constants/project_paddings.dart';
 import 'package:chat_app/services/database.dart';
 import 'package:chat_app/services/shared_pref.dart';
 import 'package:chat_app/views/home_view.dart';
@@ -39,9 +41,10 @@ registration() async {
         "Name": nameController.text,
         "E-mail": mailController.text,
         //for users primary usernames
-        "Username": updateUserName,
-        "Search":firstLetter,
+        "Username": updateUserName.toUpperCase(),
+        "SearchKey": firstLetter,
         "Photo": defaultPhotoUrl,
+   
 
         "id": id,
       };
@@ -111,11 +114,10 @@ registration() async {
                     height: 20.0,
                   ),
                   Container(
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 20.0, horizontal: 20.0),
+                    margin: const ProjectPaddings.symmetricMedium(),
                     child: Material(
                       elevation: 5.0,
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: ProjectBorders.circularSmall(),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 20.0),
@@ -143,7 +145,7 @@ registration() async {
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         width: 1.0, color: Colors.black38),
-                                    borderRadius: BorderRadius.circular(10)),
+                                    borderRadius: ProjectBorders.circularSmall()),
                                 child: TextFormField(
                                   controller: nameController,
                                   validator: (value) {
@@ -177,7 +179,7 @@ registration() async {
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         width: 1.0, color: Colors.black38),
-                                    borderRadius: BorderRadius.circular(10)),
+                                    borderRadius: ProjectBorders.circularSmall()),
                                 child: TextFormField(
                                   controller: mailController,
                                   validator: (value) {
@@ -316,12 +318,12 @@ registration() async {
                         width: MediaQuery.of(context).size.width,
                         child: Material(
                           elevation: 5.0,
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: ProjectBorders.circularSmall(),
                           child: Container(
-                            padding: const EdgeInsets.all(10),
+                            padding: const ProjectPaddings.allNormal(),
                             decoration: BoxDecoration(
                                 color: const Color(0xFF6380fb),
-                                borderRadius: BorderRadius.circular(10)),
+                                borderRadius: ProjectBorders.circularSmall()),
                             child: const Center(
                                 child: Text(
                               "Oluştur",

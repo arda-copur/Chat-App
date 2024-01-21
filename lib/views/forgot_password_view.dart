@@ -1,3 +1,4 @@
+import 'package:chat_app/constants/project_paddings.dart';
 import 'package:chat_app/views/sign_up_view.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -46,7 +47,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                         bottom: Radius.elliptical(
                             MediaQuery.of(context).size.width, 105)))),
             Padding(
-              padding: const EdgeInsets.only(top: 70.0),
+              padding: const ProjectPaddings.allNormal() * 7,
               child: Column(
                 children: [
                   const Center(

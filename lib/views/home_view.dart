@@ -35,9 +35,19 @@ class _HomeViewState extends State<HomeView> {
               for (int i=0; i<docs.docs.length; ++i) {
                 queryResultSet.add(docs.docs[i].data());
               }
-      }
-      );
+      });
        
+    }else {
+      tempSearchStore = [];
+      queryResultSet.forEach((element) {
+       if(element['Username'].startsWith(capitalizedValue)) {
+          setState(() {
+            tempSearchStore.add(element);
+          });
+       }
+      }
+      
+      );
     }
    }
 
@@ -55,9 +65,12 @@ class _HomeViewState extends State<HomeView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   search
-                      ? const Expanded(
+                      ?  Expanded(
                           child: TextField(
-                            decoration: InputDecoration(
+                            onChanged: (value) {
+                              initiateSearch(value.toUpperCase());
+                            },
+                            decoration: const InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "Kullanıcı ara..",
                                 hintStyle: TextStyle(color: Colors.black)),

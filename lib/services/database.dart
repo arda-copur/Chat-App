@@ -41,4 +41,9 @@ class DatabaseMethods {
           .set(chatRoomInfoMap);
     }
   }
+
+
+  Future addMessage(String chatRoomId, String messageId, Map<String, dynamic> messageInfoMap) {
+    return _firestore.collection("chatrooms").doc(chatRoomId).collection("chats").doc(messageId).set(messageInfoMap);
+  } 
 }

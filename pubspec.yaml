@@ -31,6 +31,8 @@ dev_dependencies:
   shared_preferences: ^2.2.0
   #Date Format
   intl: ^0.18.1
+  #Indicator
+  smooth_page_indicator: ^1.1.0
 
 
   flutter_lints: ^2.0.0

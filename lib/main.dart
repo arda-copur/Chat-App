@@ -1,4 +1,4 @@
-import 'package:chat_app/views/sign_in_view.dart';
+import 'package:chat_app/views/splash_view.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
       ),
-      home: const SignInView(),
+      home: const SplashView(),
     );
   }
 }

@@ -18,26 +18,21 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-
   bool search = false;
 
   String? myName, myProfilePic, myUserName, myEmail;
-  
+
   getSharedPref() async {
     myName = await SharedPreferenceHelper().getDisplayName();
     myProfilePic = await SharedPreferenceHelper().getUserPic();
     myUserName = await SharedPreferenceHelper().getUserName();
     myEmail = await SharedPreferenceHelper().getUserEmail();
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   onTheLoad() async {
     await getSharedPref();
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   @override
@@ -46,14 +41,11 @@ class _HomeViewState extends State<HomeView> {
     onTheLoad();
   }
 
-  
-
   //users connection for chat
-  getChatRoomIdByUser(String a,String b) {
-    if (a.substring(0,1).codeUnitAt(0) > b.substring(0,1).codeUnitAt(0)) {
+  getChatRoomIdByUser(String a, String b) {
+    if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
       return "$b\_$a";
-    } 
-    else {
+    } else {
       return "$a\_$b";
     }
   }
@@ -146,17 +138,15 @@ class _HomeViewState extends State<HomeView> {
                             borderRadius: ProjectBorders.circularSmall() * 2),
                         child: search
                             ? GestureDetector(
-                              onTap: () {
-                                search = false;
-                                setState(() {
-                                  
-                                });
-                              },
-                              child: const Icon(
+                                onTap: () {
+                                  search = false;
+                                  setState(() {});
+                                },
+                                child: const Icon(
                                   Icons.close,
                                   color: Color(0Xffc199cd),
                                 ),
-                            )
+                              )
                             : const Icon(
                                 Icons.search,
                                 color: Color(0Xffc199cd),
@@ -190,13 +180,7 @@ class _HomeViewState extends State<HomeView> {
                       : Column(
                           children: [
                             GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ChatView()));
-                              },
+                              onTap: () {},
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -391,16 +375,21 @@ class _HomeViewState extends State<HomeView> {
 
   Widget buildResultCard(data) {
     return GestureDetector(
-      onTap: () async{
-        search=false;
-        setState(() {
-          
-        });
+      onTap: () async {
+        search = false;
+        setState(() {});
         var chatRoomId = getChatRoomIdByUser(myUserName!, data["Username"]);
-        Map<String,dynamic> chatRoomInfoMap = {
-          "users":[myUserName,data["Username"]],
+        Map<String, dynamic> chatRoomInfoMap = {
+          "users": [myUserName, data["Username"]],
         };
         await DatabaseMethods().createChatRoom(chatRoomId, chatRoomInfoMap);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ChatView(
+                    name: data["Name"],
+                    profileUrl: data["Photo"],
+                    userName: data["Username"])));
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 8),

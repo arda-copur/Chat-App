@@ -3,7 +3,8 @@ import 'package:chat_app/constants/project_radius.dart';
 import 'package:flutter/material.dart';
 
 class ChatView extends StatefulWidget {
-  const ChatView({super.key});
+  String name, profileUrl, userName;
+  ChatView({super.key, required this.name, required this.profileUrl, required this.userName});
 
   @override
   State<ChatView> createState() => _ChatViewState();

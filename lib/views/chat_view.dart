@@ -1,6 +1,12 @@
+import 'package:chat_app/constants/project_elevations.dart';
 import 'package:chat_app/constants/project_paddings.dart';
 import 'package:chat_app/constants/project_radius.dart';
+import 'package:chat_app/services/database.dart';
 import 'package:flutter/material.dart';
+import 'package:chat_app/services/shared_pref.dart';
+import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:random_string/random_string.dart';
 
 class ChatView extends StatefulWidget {
   String name, profileUrl, userName;
@@ -11,6 +17,73 @@ class ChatView extends StatefulWidget {
 }
 
 class _ChatViewState extends State<ChatView> {
+  final TextEditingController messageController = TextEditingController();
+  String? myUserName, myProfilePic, myName, myEmail, messageId, chatRoomId;
+
+  getSharedPref() async{
+   
+   myUserName = await SharedPreferenceHelper().getUserName();
+   myProfilePic = await SharedPreferenceHelper().getUserPic();
+   myName = await SharedPreferenceHelper().getDisplayName();
+   myEmail = await SharedPreferenceHelper().getUserEmail();
+
+   chatRoomId = getChatRoomIdByUser(widget.userName, myUserName!);
+   setState(() {
+     
+   });
+  }
+
+  onTheLoad() async{
+     await getSharedPref();
+     setState(() {
+       
+     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    onTheLoad();
+  }
+
+    getChatRoomIdByUser(String a, String b) {
+    if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+      return "$b\_$a";
+    } else {
+      return "$a\_$b";
+    }
+  }
+   
+  addMessage(bool sendClicked) {
+    if(messageController.text != "") {
+      String message = messageController.text;
+      messageController.text = "";
+      DateTime now = DateTime.now();
+      String formattedDate = DateFormat("h:mma").format(now);
+      Map<String,dynamic> messageInfoMap = {
+        "message":message,
+        "sendBy": myUserName,
+        "ts": formattedDate,
+        "time":FieldValue.serverTimestamp(),
+        "imgUrl": myProfilePic,
+      };
+      
+      messageId ??= randomAlphaNumeric(10);
+
+      DatabaseMethods().addMessage(chatRoomId!, messageId!, messageInfoMap).then((value) {
+        Map<String,dynamic> lastMessageInfoMap = {
+           "lastMessage": message,
+           "lastMessageSendTs": formattedDate,
+           "time": FieldValue.serverTimestamp(),
+           "lastMessageSendBy": myUserName,
+        };
+      });
+      
+    }
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,15 +248,16 @@ class _ChatViewState extends State<ChatView> {
                   ),
                   const Spacer(),
                   Material(
-                    elevation: 5.0,
+                    elevation: ProjectElevations.normal.value,
                      borderRadius: BorderRadius.circular(30),
                     child: Container(
                       padding: const ProjectPaddings.allNormal(),
                       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(30)),
                       child: Row(children: [
-                      const Expanded(
+                       Expanded(
                         child: TextField(
-                          decoration: InputDecoration(border: InputBorder.none, hintText: "Type a message", hintStyle: TextStyle(color: Colors.black45)),
+                          controller: messageController,
+                          decoration: const InputDecoration(border: InputBorder.none, hintText: "Type a message", hintStyle: TextStyle(color: Colors.black45)),
                         ),
                       ),
                   Container(

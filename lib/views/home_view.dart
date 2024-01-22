@@ -2,6 +2,7 @@ import 'package:chat_app/constants/project_borders.dart';
 import 'package:chat_app/constants/project_elevations.dart';
 import 'package:chat_app/constants/project_paddings.dart';
 import 'package:chat_app/services/database.dart';
+import 'package:chat_app/services/shared_pref.dart';
 import 'package:chat_app/views/chat_view.dart';
 import 'package:chat_app/views/sign_in_view.dart';
 import 'package:chat_app/views/sign_up_view.dart';
@@ -17,7 +18,45 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+
   bool search = false;
+
+  String? myName, myProfilePic, myUserName, myEmail;
+  
+  getSharedPref() async {
+    myName = await SharedPreferenceHelper().getDisplayName();
+    myProfilePic = await SharedPreferenceHelper().getUserPic();
+    myUserName = await SharedPreferenceHelper().getUserName();
+    myEmail = await SharedPreferenceHelper().getUserEmail();
+    setState(() {
+      
+    });
+  }
+
+  onTheLoad() async {
+    await getSharedPref();
+    setState(() {
+      
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    onTheLoad();
+  }
+
+  
+
+  //users connection for chat
+  getChatRoomIdByUser(String a,String b) {
+    if (a.substring(0,1).codeUnitAt(0) > b.substring(0,1).codeUnitAt(0)) {
+      return "$b\_$a";
+    } 
+    else {
+      return "$a\_$b";
+    }
+  }
 
   var queryResultSet = [];
   var tempSearchStore = [];
@@ -351,47 +390,60 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget buildResultCard(data) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      child: Material(
-        elevation: ProjectElevations.normal.value,
-        borderRadius: ProjectBorders.circularSmall(),
-        child: Container(
-          padding: const ProjectPaddings.allMedium(),
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(10)),
-          child: Row(
-            children: [
-              ClipRRect(
-                  borderRadius: ProjectBorders.circularSmall() * 6,
-                  child: Image.network(
-                    data["Photo"],
-                    height: 70,
-                    width: 70,
-                    fit: BoxFit.cover,
-                  )),
-              ConstantSizedBoxs.normalWidthSizedBox(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    data["Name"],
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18),
-                  ),
-                  ConstantSizedBoxs.lowHeightSizedBox(),
-                  Text(
-                    data["Username"],
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500),
-                  )
-                ],
-              )
-            ],
+    return GestureDetector(
+      onTap: () async{
+        search=false;
+        setState(() {
+          
+        });
+        var chatRoomId = getChatRoomIdByUser(myUserName!, data["Username"]);
+        Map<String,dynamic> chatRoomInfoMap = {
+          "users":[myUserName,data["Username"]],
+        };
+        await DatabaseMethods().createChatRoom(chatRoomId, chatRoomInfoMap);
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        child: Material(
+          elevation: ProjectElevations.normal.value,
+          borderRadius: ProjectBorders.circularSmall(),
+          child: Container(
+            padding: const ProjectPaddings.allMedium(),
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            child: Row(
+              children: [
+                ClipRRect(
+                    borderRadius: ProjectBorders.circularSmall() * 6,
+                    child: Image.network(
+                      data["Photo"],
+                      height: 70,
+                      width: 70,
+                      fit: BoxFit.cover,
+                    )),
+                ConstantSizedBoxs.normalWidthSizedBox(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      data["Name"],
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18),
+                    ),
+                    ConstantSizedBoxs.lowHeightSizedBox(),
+                    Text(
+                      data["Username"],
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

@@ -7,6 +7,7 @@ class SharedPreferenceHelper {
   static String userPicKey = "USERPICKEY";
   static String displayNameKey = "USERDISPLAYNAME";
 
+
   Future<bool> saveUserId(String getUserId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setString(userIdKey, getUserId);

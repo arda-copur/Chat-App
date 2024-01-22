@@ -5,7 +5,7 @@ import 'package:chat_app/services/database.dart';
 import 'package:chat_app/views/chat_view.dart';
 import 'package:chat_app/views/sign_in_view.dart';
 import 'package:chat_app/views/sign_up_view.dart';
-import 'package:chat_app/widgets/constant_sized_boxs.dart.dart';
+import 'package:chat_app/widgets/constant_sized_boxs.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -55,7 +55,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF553370),
+      backgroundColor: Colors.greenAccent[400],
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -105,10 +105,23 @@ class _HomeViewState extends State<HomeView> {
                         decoration: BoxDecoration(
                             color: const Color(0xFF3a2144),
                             borderRadius: ProjectBorders.circularSmall() * 2),
-                        child: const Icon(
-                          Icons.search,
-                          color: Color(0Xffc199cd),
-                        )),
+                        child: search
+                            ? GestureDetector(
+                              onTap: () {
+                                search = false;
+                                setState(() {
+                                  
+                                });
+                              },
+                              child: const Icon(
+                                  Icons.close,
+                                  color: Color(0Xffc199cd),
+                                ),
+                            )
+                            : const Icon(
+                                Icons.search,
+                                color: Color(0Xffc199cd),
+                              )),
                   )
                 ],
               ),
@@ -157,11 +170,11 @@ class _HomeViewState extends State<HomeView> {
                                         fit: BoxFit.cover,
                                       )),
                                   ConstantSizedBoxs.lowWidthSizedBox(),
-                                   Column(
+                                  Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                     ConstantSizedBoxs.lowHeightSizedBox(),
+                                      ConstantSizedBoxs.lowHeightSizedBox(),
                                       const Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -195,24 +208,25 @@ class _HomeViewState extends State<HomeView> {
                                 ],
                               ),
                             ),
-                         ConstantSizedBoxs.largeHeightSizedBox(),
+                            ConstantSizedBoxs.largeHeightSizedBox(),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 ClipRRect(
-                                    borderRadius: ProjectBorders.circularSmall() * 6,
+                                    borderRadius:
+                                        ProjectBorders.circularSmall() * 6,
                                     child: Image.asset(
                                       "assets/girl2.jpg",
                                       height: 60,
                                       width: 60,
                                       fit: BoxFit.cover,
                                     )),
-                               ConstantSizedBoxs.lowWidthSizedBox(),
-                                 Column(
+                                ConstantSizedBoxs.lowWidthSizedBox(),
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     ConstantSizedBoxs.lowHeightSizedBox(),
-                                     const Text(
+                                    const Text(
                                       "Ezgi Aydın",
                                       style: TextStyle(
                                           color: Colors.black,
@@ -250,11 +264,11 @@ class _HomeViewState extends State<HomeView> {
                                       width: 60,
                                       fit: BoxFit.cover,
                                     )),
-                              ConstantSizedBoxs.lowWidthSizedBox(),
-                                 Column(
+                                ConstantSizedBoxs.lowWidthSizedBox(),
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                   ConstantSizedBoxs.lowHeightSizedBox(),
+                                    ConstantSizedBoxs.lowHeightSizedBox(),
                                     const Text(
                                       "Beyza Dikmen",
                                       style: TextStyle(
@@ -281,12 +295,13 @@ class _HomeViewState extends State<HomeView> {
                                 ),
                               ],
                             ),
-                          ConstantSizedBoxs.largeHeightSizedBox(),
+                            ConstantSizedBoxs.largeHeightSizedBox(),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 ClipRRect(
-                                    borderRadius: ProjectBorders.circularSmall() * 6,
+                                    borderRadius:
+                                        ProjectBorders.circularSmall() * 6,
                                     child: Image.asset(
                                       "assets/boy2.jpg",
                                       height: 60,
@@ -294,10 +309,10 @@ class _HomeViewState extends State<HomeView> {
                                       fit: BoxFit.fill,
                                     )),
                                 ConstantSizedBoxs.lowWidthSizedBox(),
-                                 Column(
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                ConstantSizedBoxs.lowHeightSizedBox(),
+                                    ConstantSizedBoxs.lowHeightSizedBox(),
                                     const Text(
                                       "Osman Tekin",
                                       style: TextStyle(
@@ -347,6 +362,15 @@ class _HomeViewState extends State<HomeView> {
               color: Colors.white, borderRadius: BorderRadius.circular(10)),
           child: Row(
             children: [
+              ClipRRect(
+                  borderRadius: ProjectBorders.circularSmall() * 6,
+                  child: Image.network(
+                    data["Photo"],
+                    height: 70,
+                    width: 70,
+                    fit: BoxFit.cover,
+                  )),
+              ConstantSizedBoxs.normalWidthSizedBox(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -358,7 +382,13 @@ class _HomeViewState extends State<HomeView> {
                         fontSize: 18),
                   ),
                   ConstantSizedBoxs.lowHeightSizedBox(),
-                  Text(data["Username"])
+                  Text(
+                    data["Username"],
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500),
+                  )
                 ],
               )
             ],

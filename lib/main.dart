@@ -1,6 +1,4 @@
-import 'package:chat_app/views/forgot_password_view.dart';
 import 'package:chat_app/views/sign_in_view.dart';
-import 'package:chat_app/views/sign_up_view.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 

@@ -10,7 +10,6 @@ class DatabaseMethods {
   }
 
   Future<QuerySnapshot> getUserByEmail(String email) async {
-
     return await _firestore
         .collection("users")
         .where("E-mail", isEqualTo: email)
@@ -58,5 +57,14 @@ class DatabaseMethods {
         .collection("chatrooms")
         .doc(chatRoomId)
         .update(lastMessageInfoMap);
+  }
+
+  Future<Stream<QuerySnapshot>> getChatRoomMessages(chatRoomId) async {
+    return _firestore
+        .collection("chatrooms")
+        .doc(chatRoomId)
+        .collection("chats")
+        .orderBy("time", descending: true)
+        .snapshots();
   }
 }

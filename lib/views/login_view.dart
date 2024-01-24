@@ -5,18 +5,18 @@ import 'package:chat_app/services/database.dart';
 import 'package:chat_app/services/shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/views/home_view.dart';
-import 'package:chat_app/views/sign_up_view.dart';
+import 'package:chat_app/views/register_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class SignInView extends StatefulWidget {
-  const SignInView({super.key});
+class LoginView extends StatefulWidget {
+  const LoginView({super.key});
 
   @override
-  State<SignInView> createState() => _SignInViewState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
-class _SignInViewState extends State<SignInView> {
+class _LoginViewState extends State<LoginView> {
   String email = "", password = "", name = "", pic = "", username = "", id = "";
   final TextEditingController userMailController = TextEditingController();
   final TextEditingController userPasswordController = TextEditingController();
@@ -251,7 +251,7 @@ class _SignInViewState extends State<SignInView> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const SignUpView()));
+                                  builder: (context) => const RegisterView()));
                         },
                         child: const Text(
                           " Şimdi üye ol!",

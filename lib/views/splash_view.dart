@@ -23,7 +23,7 @@ class _SplashViewState extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
     return  SizedBox(
-      child: Image.asset("assets/splash.gif"),
+      child: Image.asset("assets/splash.gif",fit: BoxFit.cover,),
     );
   }
 }

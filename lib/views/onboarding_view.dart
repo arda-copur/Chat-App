@@ -1,4 +1,4 @@
-import 'package:chat_app/views/sign_in_view.dart';
+import 'package:chat_app/views/register_view.dart';
 import 'package:chat_app/widgets/intro_pages/intro_page_first.dart';
 import 'package:chat_app/widgets/intro_pages/intro_page_second.dart';
 import 'package:chat_app/widgets/intro_pages/intro_page_third.dart';
@@ -52,7 +52,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const SignInView()));
+                                  builder: (context) => const RegisterView()));
                         },
                         child: const Text("Anladım"))
                     : GestureDetector(

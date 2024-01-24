@@ -4,22 +4,22 @@ import 'package:chat_app/services/database.dart';
 import 'package:chat_app/services/shared_pref.dart';
 import 'package:chat_app/views/home_view.dart';
 import 'package:flutter/material.dart';
-import 'package:chat_app/views/sign_in_view.dart';
+import 'package:chat_app/views/login_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:random_string/random_string.dart';
 
-class SignUpView extends StatefulWidget {
-  const SignUpView({super.key});
+class RegisterView extends StatefulWidget {
+  const RegisterView({super.key});
 
   @override
-  State<SignUpView> createState() => _SignUpViewState();
+  State<RegisterView> createState() => _RegisterViewState();
 }
 
-class _SignUpViewState extends State<SignUpView> {
+class _RegisterViewState extends State<RegisterView> {
   String email = "", password = "", name = "", confirmPassword = "";
   //default profile photo
   final String defaultPhotoUrl =
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
+      "https://as1.ftcdn.net/v2/jpg/05/90/59/88/1000_F_590598870_TOcGd4cUZzPoEMlxSc7XYwcupHOE0vLM.jpg";
 
   TextEditingController mailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -56,7 +56,7 @@ class _SignUpViewState extends State<SignUpView> {
         await SharedPreferenceHelper().saveUserEmail(mailController.text);
         await SharedPreferenceHelper().saveUserPic(defaultPhotoUrl);
         await SharedPreferenceHelper()
-            .saveUserName(mailController.text.replaceAll("@gmail.com", ""));
+            .saveUserName(mailController.text.replaceAll("@gmail.com", "").toUpperCase());
 
         ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text("Kayıt Başarılı")));
@@ -291,7 +291,7 @@ class _SignUpViewState extends State<SignUpView> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  const SignInView()));
+                                                  const LoginView()));
                                     },
                                     child: const Text(
                                       " Giriş yapın",

@@ -1,5 +1,5 @@
 import 'package:chat_app/constants/project_paddings.dart';
-import 'package:chat_app/views/sign_up_view.dart';
+import 'package:chat_app/views/register_view.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -177,7 +177,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const SignUpView()));
+                                  builder: (context) => const RegisterView()));
                         },
                         child: const Text(
                           " Şimdi üye ol!",

@@ -4,8 +4,7 @@ import 'package:chat_app/constants/project_paddings.dart';
 import 'package:chat_app/services/database.dart';
 import 'package:chat_app/services/shared_pref.dart';
 import 'package:chat_app/views/chat_view.dart';
-import 'package:chat_app/views/sign_in_view.dart';
-import 'package:chat_app/views/sign_up_view.dart';
+import 'package:chat_app/views/login_view.dart';
 import 'package:chat_app/widgets/constant_sized_boxs.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,6 +20,7 @@ class _HomeViewState extends State<HomeView> {
   bool search = false;
 
   String? myName, myProfilePic, myUserName, myEmail;
+  Stream? chatRoomStream;
 
   getSharedPref() async {
     myName = await SharedPreferenceHelper().getDisplayName();
@@ -32,7 +32,31 @@ class _HomeViewState extends State<HomeView> {
 
   onTheLoad() async {
     await getSharedPref();
+    chatRoomStream = await DatabaseMethods().getChatRooms();
     setState(() {});
+  }
+
+  Widget ChatRoomList() {
+    return StreamBuilder(
+        stream: chatRoomStream,
+        builder: (context, AsyncSnapshot snapshot) {
+          return snapshot.hasData
+              ? ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: snapshot.data.docs.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot ds = snapshot.data.doc.length;
+                    return ChatRoomListTile(
+                        lastMessage: ds["lastMessage"],
+                        chatRoomId: ds.id,
+                        myUserName: myUserName!,
+                        time: ds["lastMessageSendTs"]);
+                  })
+              : Center(
+                  child: CircularProgressIndicator(),
+                );
+        });
   }
 
   @override
@@ -86,291 +110,99 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.greenAccent[400],
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 20.0, right: 20.0, top: 50.0, bottom: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  search
-                      ? Expanded(
-                          child: TextField(
-                            onChanged: (value) {
-                              initiateSearch(value.toUpperCase());
-                            },
-                            decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Kullanıcı ara..",
-                                hintStyle: TextStyle(color: Colors.black)),
-                            style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        )
-                      : GestureDetector(
-                          onTap: () {
-                            DatabaseMethods().signOut();
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const SignInView()));
+        backgroundColor: Colors.greenAccent[400],
+        body: SingleChildScrollView(
+            child: Column(children: [
+          Padding(
+            padding: const EdgeInsets.only(
+                left: 20.0, right: 20.0, top: 50.0, bottom: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                search
+                    ? Expanded(
+                        child: TextField(
+                          onChanged: (value) {
+                            initiateSearch(value.toUpperCase());
                           },
-                          child: const Icon(
-                            Icons.output_outlined,
-                            size: 30,
-                            color: Colors.white,
-                          ),
+                          decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Kullanıcı ara..",
+                              hintStyle: TextStyle(color: Colors.black)),
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
                         ),
-                  GestureDetector(
-                    onTap: () {
-                      search = true;
-                      setState(() {});
-                    },
-                    child: Container(
-                        padding: const ProjectPaddings.allSmall(),
-                        decoration: BoxDecoration(
-                            color: const Color(0xFF3a2144),
-                            borderRadius: ProjectBorders.circularSmall() * 2),
-                        child: search
-                            ? GestureDetector(
-                                onTap: () {
-                                  search = false;
-                                  setState(() {});
-                                },
-                                child: const Icon(
-                                  Icons.close,
-                                  color: Color(0Xffc199cd),
-                                ),
-                              )
-                            : const Icon(
-                                Icons.search,
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          DatabaseMethods().signOut();
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginView()));
+                        },
+                        child: const Icon(
+                          Icons.output_outlined,
+                          size: 30,
+                          color: Colors.white,
+                        ),
+                      ),
+                GestureDetector(
+                  onTap: () {
+                    search = true;
+                    setState(() {});
+                  },
+                  child: Container(
+                      padding: const ProjectPaddings.allSmall(),
+                      decoration: BoxDecoration(
+                          color: const Color(0xFF3a2144),
+                          borderRadius: ProjectBorders.circularSmall() * 2),
+                      child: search
+                          ? GestureDetector(
+                              onTap: () {
+                                search = false;
+                                setState(() {});
+                              },
+                              child: const Icon(
+                                Icons.close,
                                 color: Color(0Xffc199cd),
-                              )),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 30.0, horizontal: 20.0),
-              width: MediaQuery.of(context).size.width,
-              height: search
-                  ? MediaQuery.of(context).size.height / 1.20
-                  : MediaQuery.of(context).size.height / 1.15,
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20))),
-              child: Column(
-                children: [
-                  search
-                      ? ListView(
-                          padding: const ProjectPaddings.onlyLeftRight(),
-                          primary: false,
-                          shrinkWrap: true,
-                          children: tempSearchStore.map((element) {
-                            return buildResultCard(element);
-                          }).toList())
-                      : Column(
-                          children: [
-                            GestureDetector(
-                              onTap: () {},
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ClipRRect(
-                                      borderRadius: BorderRadius.circular(60),
-                                      child: Image.asset(
-                                        "assets/boy.jpg",
-                                        height: 60,
-                                        width: 60,
-                                        fit: BoxFit.cover,
-                                      )),
-                                  ConstantSizedBoxs.lowWidthSizedBox(),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      ConstantSizedBoxs.lowHeightSizedBox(),
-                                      const Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Arda Çopur",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 17.0,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ],
-                                      ),
-                                      const Text(
-                                        "Naber?",
-                                        style: TextStyle(
-                                            color: Colors.black45,
-                                            fontSize: 15.0,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ],
-                                  ),
-                                  const Spacer(),
-                                  const Text(
-                                    "04:30 PM",
-                                    style: TextStyle(
-                                        color: Colors.black45,
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ],
                               ),
-                            ),
-                            ConstantSizedBoxs.largeHeightSizedBox(),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                    borderRadius:
-                                        ProjectBorders.circularSmall() * 6,
-                                    child: Image.asset(
-                                      "assets/girl2.jpg",
-                                      height: 60,
-                                      width: 60,
-                                      fit: BoxFit.cover,
-                                    )),
-                                ConstantSizedBoxs.lowWidthSizedBox(),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    ConstantSizedBoxs.lowHeightSizedBox(),
-                                    const Text(
-                                      "Ezgi Aydın",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 17.0,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    const Text(
-                                      "İyi misin?",
-                                      style: TextStyle(
-                                          color: Colors.black45,
-                                          fontSize: 15.0,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                                const Spacer(),
-                                const Text(
-                                  "05:30 PM",
-                                  style: TextStyle(
-                                      color: Colors.black45,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
-                            ),
-                            ConstantSizedBoxs.largeHeightSizedBox(),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                    borderRadius: BorderRadius.circular(60),
-                                    child: Image.asset(
-                                      "assets/girl.jpg",
-                                      height: 60,
-                                      width: 60,
-                                      fit: BoxFit.cover,
-                                    )),
-                                ConstantSizedBoxs.lowWidthSizedBox(),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    ConstantSizedBoxs.lowHeightSizedBox(),
-                                    const Text(
-                                      "Beyza Dikmen",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 17.0,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    const Text(
-                                      "Napıyosun",
-                                      style: TextStyle(
-                                          color: Colors.black45,
-                                          fontSize: 15.0,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                                const Spacer(),
-                                const Text(
-                                  "10:30 AM",
-                                  style: TextStyle(
-                                      color: Colors.black45,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
-                            ),
-                            ConstantSizedBoxs.largeHeightSizedBox(),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                    borderRadius:
-                                        ProjectBorders.circularSmall() * 6,
-                                    child: Image.asset(
-                                      "assets/boy2.jpg",
-                                      height: 60,
-                                      width: 60,
-                                      fit: BoxFit.fill,
-                                    )),
-                                ConstantSizedBoxs.lowWidthSizedBox(),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    ConstantSizedBoxs.lowHeightSizedBox(),
-                                    const Text(
-                                      "Osman Tekin",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 17.0,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    const Text(
-                                      "Müsait misin",
-                                      style: TextStyle(
-                                          color: Colors.black45,
-                                          fontSize: 15.0,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                                const Spacer(),
-                                const Text(
-                                  "12:30 AM",
-                                  style: TextStyle(
-                                      color: Colors.black45,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+                            )
+                          : const Icon(
+                              Icons.search,
+                              color: Color(0Xffc199cd),
+                            )),
+                )
+              ],
+            ),
+          ),
+          Container(
+            padding:
+                const EdgeInsets.symmetric(vertical: 30.0, horizontal: 20.0),
+            width: MediaQuery.of(context).size.width,
+            height: search
+                ? MediaQuery.of(context).size.height / 1.20
+                : MediaQuery.of(context).size.height / 1.15,
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20))),
+            child: Column(children: [
+              search
+                  ? ListView(
+                      padding: const ProjectPaddings.onlyLeftRight(),
+                      primary: false,
+                      shrinkWrap: true,
+                      children: tempSearchStore.map((element) {
+                        return buildResultCard(element);
+                      }).toList())
+                  : ChatRoomList()
+            ]),
+          ),
+        ])));
   }
 
   Widget buildResultCard(data) {
@@ -434,6 +266,96 @@ class _HomeViewState extends State<HomeView> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ChatRoomListTile extends StatefulWidget {
+  final String lastMessage, chatRoomId, myUserName, time;
+  const ChatRoomListTile(
+      {super.key,
+      required this.lastMessage,
+      required this.chatRoomId,
+      required this.myUserName,
+      required this.time});
+
+  @override
+  State<ChatRoomListTile> createState() => _ChatRoomListTileState();
+}
+
+class _ChatRoomListTileState extends State<ChatRoomListTile> {
+  String profilePicUrl = "", name = "", username = "", id = "";
+
+  getThisUserInfo() async {
+    username =
+        widget.chatRoomId.replaceAll("_", "").replaceAll(widget.myUserName, "");
+    QuerySnapshot querySnapshot =
+        await DatabaseMethods().getUserInfo(username.toUpperCase());
+    name = "${querySnapshot.docs[0]["Name"]}";
+    profilePicUrl = "${querySnapshot.docs[0]["Photo"]}";
+    id = "${querySnapshot.docs[0]["id"]}";
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getThisUserInfo();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ChatView(name: name, profileUrl: profilePicUrl, userName: username)));
+      },
+      child: Container(
+        margin: const ProjectPaddings.symmetricMedium(),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            profilePicUrl == ""
+                ? CircularProgressIndicator()
+                : ClipRRect(
+                    borderRadius: ProjectBorders.circularSmall() * 6,
+                    child: Image.network(
+                      profilePicUrl,
+                      height: 60,
+                      width: 60,
+                      fit: BoxFit.cover,
+                    )),
+            ConstantSizedBoxs.lowWidthSizedBox(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ConstantSizedBoxs.lowHeightSizedBox(),
+                Text(
+                  username,
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 17.0,
+                      fontWeight: FontWeight.w500),
+                ),
+                Text(
+                  widget.lastMessage,
+                  style: const TextStyle(
+                      color: Colors.black45,
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+            const Spacer(),
+            Text(
+              widget.time,
+              style: const TextStyle(
+                  color: Colors.black45,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w500),
+            ),
+          ],
         ),
       ),
     );

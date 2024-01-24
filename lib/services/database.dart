@@ -1,3 +1,4 @@
+import 'package:chat_app/services/shared_pref.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -66,5 +67,14 @@ class DatabaseMethods {
         .collection("chats")
         .orderBy("time", descending: true)
         .snapshots();
+  }
+
+  Future<QuerySnapshot> getUserInfo(String username) async {
+    return await _firestore.collection("users").where("username",isEqualTo: username).get();
+  }
+
+  Future<Stream<QuerySnapshot>> getChatRooms() async{
+    String? myUserName = await SharedPreferenceHelper().getUserName();
+    return _firestore.collection("chatrooms").orderBy("time",descending: true).where("users",arrayContains: myUserName!).snapshots();
   }
 }

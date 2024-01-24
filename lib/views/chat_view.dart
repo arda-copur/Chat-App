@@ -10,12 +10,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:random_string/random_string.dart';
 
 class ChatView extends StatefulWidget {
-  String name, profileUrl, userName;
+  String name, profileUrl, username;
   ChatView(
       {super.key,
       required this.name,
       required this.profileUrl,
-      required this.userName});
+      required this.username});
 
   @override
   State<ChatView> createState() => _ChatViewState();
@@ -32,13 +32,13 @@ class _ChatViewState extends State<ChatView> {
     myName = await SharedPreferenceHelper().getDisplayName();
     myEmail = await SharedPreferenceHelper().getUserEmail();
 
-    chatRoomId = getChatRoomIdByUser(widget.userName, myUserName!);
+    chatRoomId = getChatRoomIdByUser(widget.username, myUserName!);
     setState(() {});
   }
 
   onTheLoad() async {
     await getSharedPref();
-    getAndSetMessages();
+    await getAndSetMessages();
     setState(() {});
   }
 
@@ -63,9 +63,11 @@ class _ChatViewState extends State<ChatView> {
       children: [
         Flexible(
             child: Container(
+
           padding: const ProjectPaddings.allMedium(),
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           decoration: BoxDecoration(
+               color: sendByMe ? const Color.fromARGB(255, 234, 236, 240): const Color.fromARGB(255, 211, 228, 243),
               borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(24),
                   bottomRight: sendByMe
@@ -75,9 +77,6 @@ class _ChatViewState extends State<ChatView> {
                   bottomLeft: sendByMe
                       ? const Radius.circular(24)
                       : const Radius.circular(0))),
-          color: sendByMe
-              ? const Color.fromARGB(255, 234, 236, 240)
-              : const Color.fromARGB(255, 211, 228, 243),
           child: Text(
             message,
             style: const TextStyle(
@@ -193,7 +192,7 @@ class _ChatViewState extends State<ChatView> {
               ),
             ),
             Container(
-                margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+              margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
               alignment: Alignment.bottomCenter,
               child: Material(
                 elevation: ProjectElevations.normal.value,
@@ -205,15 +204,15 @@ class _ChatViewState extends State<ChatView> {
                       borderRadius: BorderRadius.circular(30)),
                   child: TextField(
                     controller: messageController,
-                    decoration:  InputDecoration(
+                    decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: "Mesaj gönder...",
                         hintStyle: const TextStyle(color: Colors.black45),
                         suffixIcon: GestureDetector(
-                          onTap: () {
-                            addMessage(true);
-                          },
-                          child: const Icon(Icons.send_rounded))),
+                            onTap: () {
+                              addMessage(true);
+                            },
+                            child: const Icon(Icons.send_rounded))),
                   ),
                 ),
               ),

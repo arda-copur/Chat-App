@@ -70,7 +70,7 @@ class DatabaseMethods {
   }
 
   Future<QuerySnapshot> getUserInfo(String username) async {
-    return await _firestore.collection("users").where("username",isEqualTo: username).get();
+    return await _firestore.collection("users").where("Username",isEqualTo: username).get(); 
   }
 
   Future<Stream<QuerySnapshot>> getChatRooms() async{

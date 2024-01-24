@@ -34,30 +34,41 @@ class _HomeViewState extends State<HomeView> {
     await getSharedPref();
     chatRoomStream = await DatabaseMethods().getChatRooms();
     setState(() {});
-  }
+  }Widget ChatRoomList() {
+  return StreamBuilder(
+    stream: chatRoomStream,
+    builder: (context, AsyncSnapshot snapshot) {
+      if (snapshot.hasError) {
+        print("Error in StreamBuilder: ${snapshot.error}");
+        return Center(
+          child: Text("Bir hata oluştu."),
+        );
+      }
 
-  Widget ChatRoomList() {
-    return StreamBuilder(
-        stream: chatRoomStream,
-        builder: (context, AsyncSnapshot snapshot) {
-          return snapshot.hasData
-              ? ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: snapshot.data.docs.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    DocumentSnapshot ds = snapshot.data.doc.length;
-                    return ChatRoomListTile(
-                        lastMessage: ds["lastMessage"],
-                        chatRoomId: ds.id,
-                        myUserName: myUserName!,
-                        time: ds["lastMessageSendTs"]);
-                  })
-              : Center(
-                  child: CircularProgressIndicator(),
+      return snapshot.hasData
+          ? ListView.builder(
+              padding: EdgeInsets.zero,
+              itemCount: snapshot.data.docs.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                DocumentSnapshot ds = snapshot.data.docs[index];
+                return ChatRoomListTile(
+                  chatRoomId: ds.id,
+                  lastMessage: ds["lastMessage"],
+                  myUserName: myUserName!,
+                  time: ds["lastMessageSendTs"],
                 );
-        });
-  }
+              },
+            )
+          : Center(
+              child: CircularProgressIndicator(
+                color: Colors.red,
+              ),
+            );
+    },
+  );
+}
+
 
   @override
   void initState() {
@@ -89,7 +100,7 @@ class _HomeViewState extends State<HomeView> {
     });
     var capitalizedValue =
         value.substring(0, 1).toUpperCase() + value.substring(1);
-    if (queryResultSet.length == 0 && value.length == 1) {
+    if (queryResultSet.isEmpty && value.length == 1) {
       DatabaseMethods().search(value).then((QuerySnapshot docs) {
         for (int i = 0; i < docs.docs.length; ++i) {
           queryResultSet.add(docs.docs[i].data());
@@ -209,7 +220,7 @@ class _HomeViewState extends State<HomeView> {
     return GestureDetector(
       onTap: () async {
         search = false;
-        setState(() {});
+        // setState(() {});
         var chatRoomId = getChatRoomIdByUser(myUserName!, data["Username"]);
         Map<String, dynamic> chatRoomInfoMap = {
           "users": [myUserName, data["Username"]],
@@ -221,7 +232,7 @@ class _HomeViewState extends State<HomeView> {
                 builder: (context) => ChatView(
                     name: data["Name"],
                     profileUrl: data["Photo"],
-                    userName: data["Username"])));
+                    username: data["Username"])));
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 8),
@@ -287,29 +298,46 @@ class ChatRoomListTile extends StatefulWidget {
 
 class _ChatRoomListTileState extends State<ChatRoomListTile> {
   String profilePicUrl = "", name = "", username = "", id = "";
+  bool isMounted = false;
 
   getThisUserInfo() async {
-    username =
-        widget.chatRoomId.replaceAll("_", "").replaceAll(widget.myUserName, "");
-    QuerySnapshot querySnapshot =
-        await DatabaseMethods().getUserInfo(username.toUpperCase());
+    
+    username = widget.chatRoomId.replaceAll("_", "").replaceAll(widget.myUserName, "");
+    QuerySnapshot querySnapshot = await DatabaseMethods().getUserInfo(username.toUpperCase());
+    if (isMounted) {
+     setState(() {
     name = "${querySnapshot.docs[0]["Name"]}";
     profilePicUrl = "${querySnapshot.docs[0]["Photo"]}";
     id = "${querySnapshot.docs[0]["id"]}";
-    setState(() {});
+     });
+    }
+
+    
   }
 
   @override
   void initState() {
+    isMounted = true;
     getThisUserInfo();
     super.initState();
+  }
+  @override
+  void dispose() {
+    isMounted = false;
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ChatView(name: name, profileUrl: profilePicUrl, userName: username)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ChatView(
+                    name: name,
+                    profileUrl: profilePicUrl,
+                    username: username)));
       },
       child: Container(
         margin: const ProjectPaddings.symmetricMedium(),

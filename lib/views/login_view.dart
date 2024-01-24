@@ -1,6 +1,7 @@
 import 'package:chat_app/constants/project_borders.dart';
 import 'package:chat_app/constants/project_elevations.dart';
 import 'package:chat_app/constants/project_paddings.dart';
+import 'package:chat_app/constants/project_strings.dart';
 import 'package:chat_app/services/database.dart';
 import 'package:chat_app/services/shared_pref.dart';
 import 'package:flutter/material.dart';
@@ -45,10 +46,10 @@ class _LoginViewState extends State<LoginView> {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Kullanıcı bulunamadı")));
+            const SnackBar(content: Text(ProjectStrings.errorUser)));
       } else if (e.code == 'wrong-password') {
         ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("Yanlış şifre")));
+            .showSnackBar(const SnackBar(content: Text(ProjectStrings.wrongPassword)));
       }
     }
   }
@@ -76,7 +77,7 @@ class _LoginViewState extends State<LoginView> {
                 children: [
                   const Center(
                       child: Text(
-                    "Hoşgeldiniz",
+                    ProjectStrings.welcomeText,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 24.0,
@@ -84,7 +85,7 @@ class _LoginViewState extends State<LoginView> {
                   )),
                   const Center(
                       child: Text(
-                    "Hesabınıza giriş yapın",
+                    ProjectStrings.accountLogin,
                     style: TextStyle(
                         color: Color(0xFFbbb0ff),
                         fontSize: 18.0,
@@ -113,7 +114,7 @@ class _LoginViewState extends State<LoginView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text(
-                                "Email",
+                                ProjectStrings.emailName,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 18.0,
@@ -132,7 +133,7 @@ class _LoginViewState extends State<LoginView> {
                                   controller: userMailController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return ' Lütfen email giriniz';
+                                      return ProjectStrings.errorEmail;
                                     }
                                     return null;
                                   },
@@ -148,7 +149,7 @@ class _LoginViewState extends State<LoginView> {
                                 height: 20.0,
                               ),
                               const Text(
-                                "Şifre",
+                                ProjectStrings.passwordRegister,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 18.0,
@@ -166,7 +167,7 @@ class _LoginViewState extends State<LoginView> {
                                   controller: userPasswordController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return ' Lütfen şifre giriniz';
+                                      return ProjectStrings.errorPassword;
                                     }
                                     return null;
                                   },
@@ -185,7 +186,7 @@ class _LoginViewState extends State<LoginView> {
                               Container(
                                 alignment: Alignment.bottomRight,
                                 child: const Text(
-                                  "Şifreni mi unuttun?",
+                                  ProjectStrings.dontRememberPassword,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 16.0,
@@ -219,7 +220,7 @@ class _LoginViewState extends State<LoginView> {
                                                 ProjectBorders.circularSmall(),),
                                         child: const Center(
                                             child: Text(
-                                          "Giriş",
+                                          ProjectStrings.loginTitle,
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 18.0,
@@ -243,7 +244,7 @@ class _LoginViewState extends State<LoginView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        "Hesabınız yok mu?",
+                        ProjectStrings.notAccount,
                         style: TextStyle(color: Colors.black, fontSize: 16.0),
                       ),
                       GestureDetector(
@@ -254,7 +255,7 @@ class _LoginViewState extends State<LoginView> {
                                   builder: (context) => const RegisterView()));
                         },
                         child: const Text(
-                          " Şimdi üye ol!",
+                          ProjectStrings.nowAccount,
                           style: TextStyle(
                               color: Color(0xFF7f30fe),
                               fontSize: 16.0,

@@ -1,5 +1,6 @@
 import 'package:chat_app/constants/project_borders.dart';
 import 'package:chat_app/constants/project_paddings.dart';
+import 'package:chat_app/constants/project_strings.dart';
 import 'package:chat_app/services/database.dart';
 import 'package:chat_app/services/shared_pref.dart';
 import 'package:chat_app/views/home_view.dart';
@@ -59,16 +60,16 @@ class _RegisterViewState extends State<RegisterView> {
             .saveUserName(mailController.text.replaceAll("@gmail.com", "").toUpperCase());
 
         ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("Kayıt Başarılı")));
+            .showSnackBar(const SnackBar(content: Text(ProjectStrings.successRegister)));
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => HomeView()));
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
           ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text("Şifre zayıf")));
+              .showSnackBar(const SnackBar(content: Text(ProjectStrings.weakPassword)));
         } else if (e.code == 'email-already-in-use') {
           ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Email zaten kayıtlı")));
+              const SnackBar(content: Text(ProjectStrings.alreadyEmail)));
         }
       }
     }
@@ -102,7 +103,7 @@ class _RegisterViewState extends State<RegisterView> {
                 children: [
                   const Center(
                       child: Text(
-                    "Hesap Oluştur",
+                    ProjectStrings.createAccount,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 24.0,
@@ -110,7 +111,7 @@ class _RegisterViewState extends State<RegisterView> {
                   )),
                   const Center(
                       child: Text(
-                    "Yeni bir hesap oluşturun",
+                    ProjectStrings.newAccount,
                     style: TextStyle(
                         color: Color(0xFFbbb0ff),
                         fontSize: 18.0,
@@ -138,7 +139,7 @@ class _RegisterViewState extends State<RegisterView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text(
-                                "İsim",
+                                ProjectStrings.personName,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 18.0,
@@ -157,7 +158,7 @@ class _RegisterViewState extends State<RegisterView> {
                                   controller: nameController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please Enter Name';
+                                      return ProjectStrings.errorName;
                                     }
                                     return null;
                                   },
@@ -173,7 +174,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 height: 20.0,
                               ),
                               const Text(
-                                "Email",
+                                  ProjectStrings.emailName,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 18.0,
@@ -192,7 +193,7 @@ class _RegisterViewState extends State<RegisterView> {
                                   controller: mailController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return " Lütfen email giriniz";
+                                      return ProjectStrings.errorEmail;
                                     }
                                     return null;
                                   },
@@ -208,7 +209,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 height: 20.0,
                               ),
                               const Text(
-                                "Şifre",
+                                ProjectStrings.passwordRegister,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 18.0,
@@ -226,7 +227,7 @@ class _RegisterViewState extends State<RegisterView> {
                                   controller: passwordController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return ' Lütfen şifre giriniz';
+                                      return ProjectStrings.errorPassword;
                                     }
                                     return null;
                                   },
@@ -243,7 +244,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 height: 20.0,
                               ),
                               const Text(
-                                "Şifre Tekrar",
+                                ProjectStrings.passwordControl,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 18.0,
@@ -261,7 +262,7 @@ class _RegisterViewState extends State<RegisterView> {
                                   controller: confirmPasswordController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return ' Lütfen şifrenizi tekrar giriniz';
+                                      return ProjectStrings.passwordControlError;
                                     }
                                     return null;
                                   },
@@ -281,7 +282,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   const Text(
-                                    "Zaten hesabınız var mı?",
+                                    ProjectStrings.alreadyAccount,
                                     style: TextStyle(
                                         color: Colors.black, fontSize: 16.0),
                                   ),
@@ -294,7 +295,7 @@ class _RegisterViewState extends State<RegisterView> {
                                                   const LoginView()));
                                     },
                                     child: const Text(
-                                      " Giriş yapın",
+                                      ProjectStrings.loginText,
                                       style: TextStyle(
                                           color: Color(0xFF7f30fe),
                                           fontSize: 16.0,
@@ -338,7 +339,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 borderRadius: ProjectBorders.circularSmall()),
                             child: const Center(
                                 child: Text(
-                              "Oluştur",
+                              ProjectStrings.createText,
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 18.0,

@@ -1,4 +1,5 @@
 import 'package:chat_app/constants/project_paddings.dart';
+import 'package:chat_app/constants/project_strings.dart';
 import 'package:chat_app/views/register_view.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,11 +21,11 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Şifre sıfırlama bağlantısı gönderildi.")));
+          SnackBar(content: Text(ProjectStrings.passwordReset)));
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Hesap bulunamadı.")));
+            .showSnackBar(SnackBar(content: Text(ProjectStrings.errorAccount)));
       }
     }
   }
@@ -52,7 +53,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 children: [
                   const Center(
                       child: Text(
-                    "Şifrenizi mi unuttunuz?",
+                    ProjectStrings.dontRememberPassword,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 24.0,
@@ -60,7 +61,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                   )),
                   const Center(
                       child: Text(
-                    "Lütfen kayıtlı mail adresinizi girin",
+                    ProjectStrings.oldEmail,
                     style: TextStyle(
                         color: Color(0xFFbbb0ff),
                         fontSize: 18.0,
@@ -89,7 +90,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text(
-                                "Email",
+                                ProjectStrings.emailName,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 18.0,
@@ -107,7 +108,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                                   controller: userMailController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return ' Lütfen email giriniz';
+                                      return ProjectStrings.errorEmail;
                                     }
                                     return null;
                                   },
@@ -145,7 +146,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                                                 BorderRadius.circular(10)),
                                         child: const Center(
                                             child: Text(
-                                          "Gönder",
+                                          ProjectStrings.sendText,
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 18.0,
@@ -169,7 +170,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        "Hesabınız yok mu?",
+                        ProjectStrings.notAccount,
                         style: TextStyle(color: Colors.black, fontSize: 16.0),
                       ),
                       GestureDetector(
@@ -180,7 +181,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                                   builder: (context) => const RegisterView()));
                         },
                         child: const Text(
-                          " Şimdi üye ol!",
+                          ProjectStrings.nowAccount,
                           style: TextStyle(
                               color: Color(0xFF7f30fe),
                               fontSize: 16.0,

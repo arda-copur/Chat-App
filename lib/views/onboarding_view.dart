@@ -36,32 +36,35 @@ class _OnBoardingViewState extends State<OnBoardingView> {
           ],
         ),
         Container(
-            alignment: const Alignment(0, -0.75),
+            alignment: const Alignment(0, 0.75),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                GestureDetector(
-                    onTap: () {
-                      _controller.jumpToPage(2);
-                    },
-                    child: const Text("Geç")),
+                TextButton(
+                  child: const Text("Geç"),
+                  onPressed: () {
+                    _controller.jumpToPage(2);
+                  },
+                ),
                 SmoothPageIndicator(controller: _controller, count: 3),
                 onLastPage
-                    ? GestureDetector(
-                        onTap: () {
+                    ? TextButton(
+                        child: const Text("Anladım"),
+                        onPressed: () {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const RegisterView()));
                         },
-                        child: const Text("Anladım"))
-                    : GestureDetector(
-                        onTap: () {
+                      )
+                    : TextButton(
+                        child: const Text("İleri"),
+                        onPressed: () {
                           _controller.nextPage(
                               duration: const Duration(milliseconds: 500),
                               curve: Curves.easeIn);
                         },
-                        child: const Text("İleri"))
+                      )
               ],
             ))
       ],

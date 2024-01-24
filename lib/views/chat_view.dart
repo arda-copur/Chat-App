@@ -77,6 +77,10 @@ class _ChatViewState extends State<ChatView> {
            "time": FieldValue.serverTimestamp(),
            "lastMessageSendBy": myUserName,
         };
+        DatabaseMethods().updateLastMessageSend(chatRoomId!, lastMessageInfoMap);
+        if (sendClicked) {
+          messageId = "";
+        }
       });
       
     }
@@ -257,13 +261,18 @@ class _ChatViewState extends State<ChatView> {
                        Expanded(
                         child: TextField(
                           controller: messageController,
-                          decoration: const InputDecoration(border: InputBorder.none, hintText: "Type a message", hintStyle: TextStyle(color: Colors.black45)),
+                          decoration: const InputDecoration(border: InputBorder.none, hintText: "Mesaj gönder...", hintStyle: TextStyle(color: Colors.black45)),
                         ),
                       ),
-                  Container(
-                    padding: const ProjectPaddings.allNormal(),
-                    decoration: BoxDecoration(color: const Color(0xFFf3f3f3), borderRadius: BorderRadius.circular(60)),
-                    child: const Center(child: Icon(Icons.send, color: Color(0xFF553370),)))
+                  GestureDetector(
+                    onTap: () {
+                      addMessage(true);
+                    },
+                    child: Container(
+                      padding: const ProjectPaddings.allNormal(),
+                      decoration: BoxDecoration(color: const Color(0xFFf3f3f3), borderRadius: BorderRadius.circular(60)),
+                      child: const Center(child: Icon(Icons.send, color: Color(0xFF553370),))),
+                  )
                     ],),),
                   )
                 ],

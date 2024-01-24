@@ -10,7 +10,7 @@ class DatabaseMethods {
   }
 
   Future<QuerySnapshot> getUserByEmail(String email) async {
-    //Firestore'daki E-mail verisi giriş yapan email'e eşitse diyoruz çünkü user'a göre işlem yapıcaz
+
     return await _firestore
         .collection("users")
         .where("E-mail", isEqualTo: email)
@@ -42,8 +42,21 @@ class DatabaseMethods {
     }
   }
 
+  Future addMessage(String chatRoomId, String messageId,
+      Map<String, dynamic> messageInfoMap) {
+    return _firestore
+        .collection("chatrooms")
+        .doc(chatRoomId)
+        .collection("chats")
+        .doc(messageId)
+        .set(messageInfoMap);
+  }
 
-  Future addMessage(String chatRoomId, String messageId, Map<String, dynamic> messageInfoMap) {
-    return _firestore.collection("chatrooms").doc(chatRoomId).collection("chats").doc(messageId).set(messageInfoMap);
-  } 
+  updateLastMessageSend(
+      String chatRoomId, Map<String, dynamic> lastMessageInfoMap) {
+    return _firestore
+        .collection("chatrooms")
+        .doc(chatRoomId)
+        .update(lastMessageInfoMap);
+  }
 }

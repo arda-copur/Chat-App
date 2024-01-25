@@ -1,12 +1,13 @@
 import 'package:chat_app/constants/project_borders.dart';
 import 'package:chat_app/constants/project_colors.dart';
+import 'package:chat_app/constants/project_elevations.dart';
 import 'package:chat_app/constants/project_paddings.dart';
 import 'package:chat_app/constants/project_strings.dart';
 import 'package:chat_app/services/database.dart';
 import 'package:chat_app/services/shared_pref.dart';
 import 'package:chat_app/views/home_view.dart';
 import 'package:chat_app/widgets/constant_sized_boxs.dart';
-import 'package:chat_app/widgets/register/register_text_form_field.dart';
+import 'package:chat_app/widgets/textfields/password_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/views/login_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -86,19 +87,9 @@ class _RegisterViewState extends State<RegisterView> {
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            Container(
-                height: MediaQuery.of(context).size.height / 2.5,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    gradient: const LinearGradient(colors: [
-                      ProjectColors.customPurple,
-                      ProjectColors.primary
-                    ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                    borderRadius: BorderRadius.vertical(
-                        bottom: Radius.elliptical(
-                            MediaQuery.of(context).size.width, 105)))),
+            decorativeContainer(context),
             Padding(
-              padding: const EdgeInsets.only(top: 70.0),
+              padding: const ProjectPaddings.onlyTop() * 7,
               child: Column(
                 children: [
                   const Center(
@@ -117,233 +108,243 @@ class _RegisterViewState extends State<RegisterView> {
                         fontSize: 18.0,
                         fontWeight: FontWeight.w500),
                   )),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  Container(
-                    margin: const ProjectPaddings.symmetricMedium(),
-                    child: Material(
-                      elevation: 5.0,
-                      borderRadius: ProjectBorders.circularSmall(),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                        height: MediaQuery.of(context).size.height / 1.5,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                            color: ProjectColors.white,
-                            borderRadius: ProjectBorders.circularSmall()),
-                        child: Form(
-                          key: _formkey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                ProjectStrings.personName,
-                                style: TextStyle(
-                                    color: ProjectColors.black,
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              ConstantSizedBoxs.lowHeightSizedBox(),
-                              Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 1.0, color: ProjectColors.lowBlack),
-                                      borderRadius:
-                                          ProjectBorders.circularSmall()),
-                                  child: RegisterTextFormField(
-                                    controller: nameController,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return ProjectStrings.errorName;
-                                      }
-                                      return null;
-                                    },
-                                  )),
-                              const SizedBox(
-                                height: 20.0,
-                              ),
-                              const Text(
-                                ProjectStrings.emailName,
-                                style: TextStyle(
-                                    color: ProjectColors.black,
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              const SizedBox(
-                                height: 10.0,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 1.0, color: Colors.black38),
-                                    borderRadius:
-                                        ProjectBorders.circularSmall()),
-                                child: TextFormField(
-                                  controller: mailController,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return ProjectStrings.errorEmail;
-                                    }
-                                    return null;
-                                  },
-                                  decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      prefixIcon: Icon(
-                                        Icons.mail_outline,
-                                        color: ProjectColors.iconPurple
-                                      )),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 20.0,
-                              ),
-                              const Text(
-                                ProjectStrings.passwordRegister,
-                                style: TextStyle(
-                                    color: ProjectColors.black,
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              const SizedBox(
-                                height: 10.0,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 1.0, color: ProjectColors.lowBlack),
-                                    borderRadius: ProjectBorders.circularSmall()),
-                                child: TextFormField(
-                                  controller: passwordController,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return ProjectStrings.errorPassword;
-                                    }
-                                    return null;
-                                  },
-                                  decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      prefixIcon: Icon(
-                                        Icons.password,
-                                        color: ProjectColors.iconPurple
-                                      )),
-                                  obscureText: true,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 20.0,
-                              ),
-                              const Text(
-                                ProjectStrings.passwordControl,
-                                style: TextStyle(
-                                    color: ProjectColors.black,
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              const SizedBox(
-                                height: 10.0,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 1.0, color: ProjectColors.lowBlack),
-                                    borderRadius: ProjectBorders.circularSmall()),
-                                child: TextFormField(
-                                  controller: confirmPasswordController,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return ProjectStrings
-                                          .passwordControlError;
-                                    }
-                                    return null;
-                                  },
-                                  decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      prefixIcon: Icon(
-                                        Icons.password,
-                                        color: ProjectColors.iconPurple
-                                      )),
-                                  obscureText: true,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 30.0,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text(
-                                    ProjectStrings.alreadyAccount,
-                                    style: TextStyle(
-                                        color: ProjectColors.black, fontSize: 16.0),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const LoginView()));
-                                    },
-                                    child: const Text(
-                                      ProjectStrings.loginText,
-                                      style: TextStyle(
-                                          color: ProjectColors.iconPurple,
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
                   ConstantSizedBoxs.normalHeightSizedBox(),
-                  GestureDetector(
-                    onTap: () {
-                      if (_formkey.currentState!.validate()) {
-                        setState(() {
-                          email = mailController.text;
-                          name = nameController.text;
-                          password = passwordController.text;
-                          confirmPassword = confirmPasswordController.text;
-                        });
-                      }
-                      registration();
-                    },
-                    child: Center(
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20.0),
-                        width: MediaQuery.of(context).size.width,
-                        child: Material(
-                          elevation: 5.0,
-                          borderRadius: ProjectBorders.circularSmall(),
-                          child: Container(
-                            padding: const ProjectPaddings.allNormal(),
-                            decoration: BoxDecoration(
-                                color: ProjectColors.secondary,
-                                borderRadius: ProjectBorders.circularSmall()),
-                            child: const Center(
-                                child: Text(
-                              ProjectStrings.createText,
-                              style: TextStyle(
-                                  color: ProjectColors.white,
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold),
-                            )),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  RegisterMenu(context),
+                  ConstantSizedBoxs.normalHeightSizedBox(),
+                  RegisterButton(context),
                 ],
               ),
             )
           ],
+        ),
+      ),
+    );
+  }
+
+  Container decorativeContainer(BuildContext context) {
+    return Container(
+        height: MediaQuery.of(context).size.height / 2.5,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            gradient: const LinearGradient(
+                colors: [ProjectColors.customPurple, ProjectColors.primary],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight),
+            borderRadius: BorderRadius.vertical(
+                bottom: Radius.elliptical(
+                    MediaQuery.of(context).size.width, 105))));
+  }
+
+  Container RegisterMenu(BuildContext context) {
+    return Container(
+      margin: const ProjectPaddings.symmetricMedium(),
+      child: Material(
+        elevation: ProjectElevations.normal.value,
+        borderRadius: ProjectBorders.circularSmall(),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+          height: MediaQuery.of(context).size.height / 1.5,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              color: ProjectColors.white,
+              borderRadius: ProjectBorders.circularSmall()),
+          child: Form(
+            key: _formkey,
+            child: TextFieldsColumn(context),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Column TextFieldsColumn(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          ProjectStrings.personName,
+          style: TextStyle(
+              color: ProjectColors.black,
+              fontSize: 18.0,
+              fontWeight: FontWeight.w500),
+        ),
+        ConstantSizedBoxs.lowHeightSizedBox(),
+        Container(
+            decoration: BoxDecoration(
+                border: Border.all(width: 1.0, color: ProjectColors.lowBlack),
+                borderRadius: ProjectBorders.circularSmall()),
+            child: nameTextFormField()),
+        const SizedBox(
+          height: 20.0,
+        ),
+        const Text(
+          ProjectStrings.emailName,
+          style: TextStyle(
+              color: ProjectColors.black,
+              fontSize: 18.0,
+              fontWeight: FontWeight.w500),
+        ),
+        const SizedBox(
+          height: 10.0,
+        ),
+        Container(
+          decoration: BoxDecoration(
+              border: Border.all(width: 1.0, color: Colors.black38),
+              borderRadius: ProjectBorders.circularSmall()),
+          child: mailTextFormField(),
+        ),
+        ConstantSizedBoxs.normalHeightSizedBox(),
+        const Text(
+          ProjectStrings.passwordRegister,
+          style: TextStyle(
+              color: ProjectColors.black,
+              fontSize: 18.0,
+              fontWeight: FontWeight.w500),
+        ),
+        const SizedBox(
+          height: 10.0,
+        ),
+        Container(
+          decoration: BoxDecoration(
+              border: Border.all(width: 1.0, color: ProjectColors.lowBlack),
+              borderRadius: ProjectBorders.circularSmall()),
+          child: PasswordTextFormField(
+            controller: passwordController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return ProjectStrings.errorPassword;
+              }
+              return null;
+            },
+          ),
+        ),
+        ConstantSizedBoxs.normalHeightSizedBox(),
+        const Text(
+          ProjectStrings.passwordControl,
+          style: TextStyle(
+              color: ProjectColors.black,
+              fontSize: 18.0,
+              fontWeight: FontWeight.w500),
+        ),
+        ConstantSizedBoxs.lowHeightSizedBox(),
+        Container(
+          decoration: BoxDecoration(
+              border: Border.all(width: 1.0, color: ProjectColors.lowBlack),
+              borderRadius: ProjectBorders.circularSmall()),
+          child: PasswordTextFormField(
+            controller: confirmPasswordController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return ProjectStrings.passwordControlError;
+              }
+              return null;
+            },
+          ),
+        ),
+        ConstantSizedBoxs.largeHeightSizedBox(),
+        GoLoginViewRow(context),
+      ],
+    );
+  }
+
+  TextFormField nameTextFormField() {
+    return TextFormField(
+      decoration: const InputDecoration(
+          border: InputBorder.none,
+          prefixIcon: Icon(
+            Icons.person,
+            color: ProjectColors.iconPurple,
+          )),
+      controller: nameController,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return ProjectStrings.errorName;
+        }
+        return null;
+      },
+    );
+  }
+
+  TextFormField mailTextFormField() {
+    return TextFormField(
+      controller: mailController,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return ProjectStrings.errorEmail;
+        }
+        return null;
+      },
+      decoration: const InputDecoration(
+          border: InputBorder.none,
+          prefixIcon:
+              Icon(Icons.mail_outline, color: ProjectColors.iconPurple)),
+    );
+  }
+
+  Row GoLoginViewRow(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text(
+          ProjectStrings.alreadyAccount,
+          style: TextStyle(color: ProjectColors.black, fontSize: 16.0),
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const LoginView()));
+          },
+          child: const Text(
+            ProjectStrings.loginText,
+            style: TextStyle(
+                color: ProjectColors.iconPurple,
+                fontSize: 16.0,
+                fontWeight: FontWeight.w500),
+          ),
+        )
+      ],
+    );
+  }
+
+  GestureDetector RegisterButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        if (_formkey.currentState!.validate()) {
+          setState(() {
+            email = mailController.text;
+            name = nameController.text;
+            password = passwordController.text;
+            confirmPassword = confirmPasswordController.text;
+          });
+        }
+        registration();
+      },
+      child: RegisterContainer(context),
+    );
+  }
+
+  Center RegisterContainer(BuildContext context) {
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20.0),
+        width: MediaQuery.of(context).size.width,
+        child: Material(
+          elevation: ProjectElevations.normal.value,
+          borderRadius: ProjectBorders.circularSmall(),
+          child: Container(
+            padding: const ProjectPaddings.allNormal(),
+            decoration: BoxDecoration(
+                color: ProjectColors.secondary,
+                borderRadius: ProjectBorders.circularSmall()),
+            child: const Center(
+                child: Text(
+              ProjectStrings.createText,
+              style: TextStyle(
+                  color: ProjectColors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold),
+            )),
+          ),
         ),
       ),
     );

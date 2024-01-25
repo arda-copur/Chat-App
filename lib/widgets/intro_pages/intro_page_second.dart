@@ -11,12 +11,12 @@ class IntroPageSecond extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
   return Scaffold(
-      backgroundColor: ProjectColors.primary,
+      backgroundColor: ProjectColors.infoBackground,
       body: Column(
          mainAxisAlignment: MainAxisAlignment.center,
        children: [
         Text(ProjectStrings.secondDescription,style: 
-        context.projectTheme().headlineSmall?.copyWith(fontWeight: FontWeight.w800,color: Colors.black45)
+        context.projectTheme().headlineSmall?.copyWith(fontWeight: FontWeight.w800,color: ProjectColors.lowWhite)
         ),
         
         ConstantSizedBoxs.largeHeightSizedBox(),

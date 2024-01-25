@@ -29,7 +29,7 @@ class ProjectStrings {
   static const String accountLogin = "Hesabınıza giriş yapın";
   static const String dontRememberPassword = "Şifreni mi unuttun?";
   static const String loginTitle = "Giriş";
-  static const String notAccount = "Hesabınız yok mu?";
+  static const String notAccount = "Hesabın yok mu?";
   static const String nowAccount = "Şimdi üye ol!";
   //Forgot Password
   static const String passwordReset = "Şifre sıfırlama bağlantısı gönderildi.";

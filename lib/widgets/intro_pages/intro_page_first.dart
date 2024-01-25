@@ -11,7 +11,7 @@ class IntroPageFirst extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ProjectColors.primary,
+      backgroundColor: ProjectColors.infoBackground,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -19,7 +19,7 @@ class IntroPageFirst extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Text(ProjectStrings.firstDescription,
                 style: context.projectTheme().headlineSmall?.copyWith(
-                    fontWeight: FontWeight.w800, color: Colors.black45)),
+                    fontWeight: FontWeight.w800, color: ProjectColors.lowWhite)),
           ),
           ConstantSizedBoxs.largeHeightSizedBox(),
           Center(

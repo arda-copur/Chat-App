@@ -1,19 +1,20 @@
+import 'package:chat_app/constants/project_colors.dart';
 import 'package:flutter/material.dart';
-class RegisterTextFormField extends StatefulWidget {
+class PasswordTextFormField extends StatefulWidget {
   final TextEditingController controller;
   final String? Function(String?)? validator;
 
-  const RegisterTextFormField({
+  const PasswordTextFormField({
     Key? key,
     required this.controller,
     this.validator,
   }) : super(key: key);
 
   @override
-  State<RegisterTextFormField> createState() => _RegisterTextFormFieldState();
+  State<PasswordTextFormField> createState() => _PasswordTextFormFieldState();
 }
 
-class _RegisterTextFormFieldState extends State<RegisterTextFormField> {
+class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
   final ValueNotifier<bool> isVisible = ValueNotifier<bool>(false);
 
   @override
@@ -27,11 +28,10 @@ class _RegisterTextFormFieldState extends State<RegisterTextFormField> {
         const Icon(Icons.password),
         GestureDetector(
           child: isVisible.value
-              ? const Icon(Icons.lock_open_sharp)
-              : const Icon(Icons.lock_outline),
+              ?  eyeIcon()
+              :  eyeOutlinedIcon(),
           onTap: () {
-
-           setState(() {
+      setState(() {
               isVisible.value = !isVisible.value;
            });
           },
@@ -39,6 +39,12 @@ class _RegisterTextFormFieldState extends State<RegisterTextFormField> {
       ),
     );
   }
+
+  Icon eyeOutlinedIcon() => const Icon(Icons.remove_red_eye, color: ProjectColors.iconPurple,);
+
+  Icon eyeIcon() => const Icon(Icons.remove_red_eye_outlined,color: ProjectColors.iconPurple,);
+
+  
 }
 
 

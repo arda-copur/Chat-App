@@ -1,3 +1,4 @@
+import 'package:chat_app/constants/project_strings.dart';
 import 'package:chat_app/services/shared_pref.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,19 +8,22 @@ class DatabaseMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future addUserDetails(Map<String, dynamic> userInfoMap, String id) async {
-    return await _firestore.collection("users").doc(id).set(userInfoMap);
+    return await _firestore
+        .collection(ProjectStrings.usersCollection)
+        .doc(id)
+        .set(userInfoMap);
   }
 
   Future<QuerySnapshot> getUserByEmail(String email) async {
     return await _firestore
-        .collection("users")
+        .collection(ProjectStrings.usersCollection)
         .where("E-mail", isEqualTo: email)
         .get();
   }
 
   Future<QuerySnapshot> search(String username) async {
     return await _firestore
-        .collection("users")
+        .collection(ProjectStrings.usersCollection)
         .where("SearchKey", isEqualTo: username.substring(0, 1).toUpperCase())
         .get();
   }
@@ -30,13 +34,15 @@ class DatabaseMethods {
 
   createChatRoom(
       String chatRoomId, Map<String, dynamic> chatRoomInfoMap) async {
-    final snapshot =
-        await _firestore.collection("chatrooms").doc(chatRoomId).get();
+    final snapshot = await _firestore
+        .collection(ProjectStrings.chatRoomsCollection)
+        .doc(chatRoomId)
+        .get();
     if (snapshot.exists) {
       return true;
     } else {
       return _firestore
-          .collection("chatrooms")
+          .collection(ProjectStrings.chatRoomsCollection)
           .doc(chatRoomId)
           .set(chatRoomInfoMap);
     }
@@ -45,9 +51,9 @@ class DatabaseMethods {
   Future addMessage(String chatRoomId, String messageId,
       Map<String, dynamic> messageInfoMap) {
     return _firestore
-        .collection("chatrooms")
+        .collection(ProjectStrings.chatRoomsCollection)
         .doc(chatRoomId)
-        .collection("chats")
+        .collection(ProjectStrings.chatsCollection)
         .doc(messageId)
         .set(messageInfoMap);
   }
@@ -55,26 +61,33 @@ class DatabaseMethods {
   updateLastMessageSend(
       String chatRoomId, Map<String, dynamic> lastMessageInfoMap) {
     return _firestore
-        .collection("chatrooms")
+        .collection(ProjectStrings.chatRoomsCollection)
         .doc(chatRoomId)
         .update(lastMessageInfoMap);
   }
 
   Future<Stream<QuerySnapshot>> getChatRoomMessages(chatRoomId) async {
     return _firestore
-        .collection("chatrooms")
+        .collection(ProjectStrings.chatRoomsCollection)
         .doc(chatRoomId)
-        .collection("chats")
+        .collection(ProjectStrings.chatsCollection)
         .orderBy("time", descending: true)
         .snapshots();
   }
 
   Future<QuerySnapshot> getUserInfo(String username) async {
-    return await _firestore.collection("users").where("Username",isEqualTo: username).get(); 
+    return await _firestore
+        .collection(ProjectStrings.usersCollection)
+        .where("Username", isEqualTo: username)
+        .get();
   }
 
-  Future<Stream<QuerySnapshot>> getChatRooms() async{
+  Future<Stream<QuerySnapshot>> getChatRooms() async {
     String? myUserName = await SharedPreferenceHelper().getUserName();
-    return _firestore.collection("chatrooms").orderBy("time",descending: true).where("users",arrayContains: myUserName!).snapshots();
+    return _firestore
+        .collection(ProjectStrings.chatRoomsCollection)
+        .orderBy("time", descending: true)
+        .where("users", arrayContains: myUserName!)
+        .snapshots();
   }
 }

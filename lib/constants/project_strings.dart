@@ -39,5 +39,9 @@ class ProjectStrings {
   static const String firstDescription = "İstediğin kullanıcılarla sohbet et!";
   static const String secondDescription = "Kullanıcı adını aratman yeterli...";
   static const String thirdDescription = "Tıkla ve konuşmaya başla!";
+  //Firebase
+  static const String usersCollection = "users";
+  static const String chatRoomsCollection = "chatrooms";
+  static const String chatsCollection = "chats";
   
 }

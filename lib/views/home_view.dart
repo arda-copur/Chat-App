@@ -1,4 +1,5 @@
 import 'package:chat_app/constants/project_borders.dart';
+import 'package:chat_app/constants/project_colors.dart';
 import 'package:chat_app/constants/project_elevations.dart';
 import 'package:chat_app/constants/project_paddings.dart';
 import 'package:chat_app/services/database.dart';
@@ -34,41 +35,40 @@ class _HomeViewState extends State<HomeView> {
     await getSharedPref();
     chatRoomStream = await DatabaseMethods().getChatRooms();
     setState(() {});
-  }Widget ChatRoomList() {
-  return StreamBuilder(
-    stream: chatRoomStream,
-    builder: (context, AsyncSnapshot snapshot) {
-      if (snapshot.hasError) {
-        print("Error in StreamBuilder: ${snapshot.error}");
-        return Center(
-          child: Text("Bir hata oluştu."),
-        );
-      }
+  }
 
-      return snapshot.hasData
-          ? ListView.builder(
-              padding: EdgeInsets.zero,
-              itemCount: snapshot.data.docs.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                DocumentSnapshot ds = snapshot.data.docs[index];
-                return ChatRoomListTile(
-                  chatRoomId: ds.id,
-                  lastMessage: ds["lastMessage"],
-                  myUserName: myUserName!,
-                  time: ds["lastMessageSendTs"],
-                );
-              },
-            )
-          : Center(
-              child: CircularProgressIndicator(
-                color: Colors.red,
-              ),
-            );
-    },
-  );
-}
+  Widget ChatRoomList() {
+    return StreamBuilder(
+      stream: chatRoomStream,
+      builder: (context, AsyncSnapshot snapshot) {
+        if (snapshot.hasError) {
+          print("Error in StreamBuilder: ${snapshot.error}");
+          return Center(
+            child: Text("Bir hata oluştu."),
+          );
+        }
 
+        return snapshot.hasData
+            ? ListView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: snapshot.data.docs.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  DocumentSnapshot ds = snapshot.data.docs[index];
+                  return ChatRoomListTile(
+                    chatRoomId: ds.id,
+                    lastMessage: ds["lastMessage"],
+                    myUserName: myUserName!,
+                    time: ds["lastMessageSendTs"],
+                  );
+                },
+              )
+            : const Center(
+                child: CircularProgressIndicator(),
+              );
+      },
+    );
+  }
 
   @override
   void initState() {
@@ -121,7 +121,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.greenAccent[400],
+        backgroundColor: ProjectColors.primary,
         body: SingleChildScrollView(
             child: Column(children: [
           Padding(
@@ -139,9 +139,9 @@ class _HomeViewState extends State<HomeView> {
                           decoration: const InputDecoration(
                               border: InputBorder.none,
                               hintText: "Kullanıcı ara..",
-                              hintStyle: TextStyle(color: Colors.black)),
+                              hintStyle: TextStyle(color: ProjectColors.black)),
                           style: const TextStyle(
-                              color: Colors.black,
+                              color: ProjectColors.black,
                               fontSize: 18,
                               fontWeight: FontWeight.w500),
                         ),
@@ -157,7 +157,7 @@ class _HomeViewState extends State<HomeView> {
                         child: const Icon(
                           Icons.output_outlined,
                           size: 30,
-                          color: Colors.white,
+                          color: ProjectColors.white,
                         ),
                       ),
                 GestureDetector(
@@ -168,7 +168,7 @@ class _HomeViewState extends State<HomeView> {
                   child: Container(
                       padding: const ProjectPaddings.allSmall(),
                       decoration: BoxDecoration(
-                          color: const Color(0xFF3a2144),
+                          color: ProjectColors.customBrown,
                           borderRadius: ProjectBorders.circularSmall() * 2),
                       child: search
                           ? GestureDetector(
@@ -178,12 +178,12 @@ class _HomeViewState extends State<HomeView> {
                               },
                               child: const Icon(
                                 Icons.close,
-                                color: Color(0Xffc199cd),
+                                color: ProjectColors.iconPurple
                               ),
                             )
                           : const Icon(
                               Icons.search,
-                              color: Color(0Xffc199cd),
+                              color: ProjectColors.iconPurple
                             )),
                 )
               ],
@@ -197,7 +197,7 @@ class _HomeViewState extends State<HomeView> {
                 ? MediaQuery.of(context).size.height / 1.20
                 : MediaQuery.of(context).size.height / 1.15,
             decoration: const BoxDecoration(
-                color: Colors.white,
+                color: ProjectColors.white,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20))),
@@ -260,7 +260,7 @@ class _HomeViewState extends State<HomeView> {
                     Text(
                       data["Name"],
                       style: const TextStyle(
-                          color: Colors.black,
+                          color: ProjectColors.black,
                           fontWeight: FontWeight.w600,
                           fontSize: 18),
                     ),
@@ -268,7 +268,7 @@ class _HomeViewState extends State<HomeView> {
                     Text(
                       data["Username"],
                       style: const TextStyle(
-                          color: Colors.black,
+                          color: ProjectColors.black,
                           fontSize: 15,
                           fontWeight: FontWeight.w500),
                     )
@@ -301,18 +301,17 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
   bool isMounted = false;
 
   getThisUserInfo() async {
-    
-    username = widget.chatRoomId.replaceAll("_", "").replaceAll(widget.myUserName, "");
-    QuerySnapshot querySnapshot = await DatabaseMethods().getUserInfo(username.toUpperCase());
+    username =
+        widget.chatRoomId.replaceAll("_", "").replaceAll(widget.myUserName, "");
+    QuerySnapshot querySnapshot =
+        await DatabaseMethods().getUserInfo(username.toUpperCase());
     if (isMounted) {
-     setState(() {
-    name = "${querySnapshot.docs[0]["Name"]}";
-    profilePicUrl = "${querySnapshot.docs[0]["Photo"]}";
-    id = "${querySnapshot.docs[0]["id"]}";
-     });
+      setState(() {
+        name = "${querySnapshot.docs[0]["Name"]}";
+        profilePicUrl = "${querySnapshot.docs[0]["Photo"]}";
+        id = "${querySnapshot.docs[0]["id"]}";
+      });
     }
-
-    
   }
 
   @override
@@ -321,6 +320,7 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
     getThisUserInfo();
     super.initState();
   }
+
   @override
   void dispose() {
     isMounted = false;
@@ -362,14 +362,14 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
                 Text(
                   username,
                   style: const TextStyle(
-                      color: Colors.black,
+                      color: ProjectColors.black,
                       fontSize: 17.0,
                       fontWeight: FontWeight.w500),
                 ),
                 Text(
                   widget.lastMessage,
                   style: const TextStyle(
-                      color: Colors.black45,
+                      color: ProjectColors.lowBlack,
                       fontSize: 15.0,
                       fontWeight: FontWeight.w500),
                 ),
@@ -379,7 +379,7 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
             Text(
               widget.time,
               style: const TextStyle(
-                  color: Colors.black45,
+                  color: ProjectColors.lowBlack,
                   fontSize: 14.0,
                   fontWeight: FontWeight.w500),
             ),

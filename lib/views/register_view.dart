@@ -5,6 +5,7 @@ import 'package:chat_app/constants/project_strings.dart';
 import 'package:chat_app/services/database.dart';
 import 'package:chat_app/services/shared_pref.dart';
 import 'package:chat_app/views/home_view.dart';
+import 'package:chat_app/widgets/constant_sized_boxs.dart';
 import 'package:chat_app/widgets/register/register_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/views/login_view.dart';
@@ -58,17 +59,17 @@ class _RegisterViewState extends State<RegisterView> {
         await SharedPreferenceHelper().saveUserDisplayName(nameController.text);
         await SharedPreferenceHelper().saveUserEmail(mailController.text);
         await SharedPreferenceHelper().saveUserPic(defaultPhotoUrl);
-        await SharedPreferenceHelper()
-            .saveUserName(mailController.text.replaceAll("@gmail.com", "").toUpperCase());
+        await SharedPreferenceHelper().saveUserName(
+            mailController.text.replaceAll("@gmail.com", "").toUpperCase());
 
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text(ProjectStrings.successRegister)));
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text(ProjectStrings.successRegister)));
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => HomeView()));
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text(ProjectStrings.weakPassword)));
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text(ProjectStrings.weakPassword)));
         } else if (e.code == 'email-already-in-use') {
           ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text(ProjectStrings.alreadyEmail)));
@@ -89,16 +90,13 @@ class _RegisterViewState extends State<RegisterView> {
                 height: MediaQuery.of(context).size.height / 2.5,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                        colors: [Color.fromARGB(255, 145, 96, 224), ProjectColors.primary],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight),
+                    gradient: const LinearGradient(colors: [
+                      ProjectColors.customPurple,
+                      ProjectColors.primary
+                    ], begin: Alignment.topLeft, end: Alignment.bottomRight),
                     borderRadius: BorderRadius.vertical(
                         bottom: Radius.elliptical(
-                            MediaQuery.of(context).size.width, 105)
-                            )
-                            )
-                            ),
+                            MediaQuery.of(context).size.width, 105)))),
             Padding(
               padding: const EdgeInsets.only(top: 70.0),
               child: Column(
@@ -107,7 +105,7 @@ class _RegisterViewState extends State<RegisterView> {
                       child: Text(
                     ProjectStrings.createAccount,
                     style: TextStyle(
-                        color: Colors.white,
+                        color: ProjectColors.white,
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold),
                   )),
@@ -115,7 +113,7 @@ class _RegisterViewState extends State<RegisterView> {
                       child: Text(
                     ProjectStrings.newAccount,
                     style: TextStyle(
-                        color: Color(0xFFbbb0ff),
+                        color: ProjectColors.customWhite,
                         fontSize: 18.0,
                         fontWeight: FontWeight.w500),
                   )),
@@ -133,8 +131,8 @@ class _RegisterViewState extends State<RegisterView> {
                         height: MediaQuery.of(context).size.height / 1.5,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
+                            color: ProjectColors.white,
+                            borderRadius: ProjectBorders.circularSmall()),
                         child: Form(
                           key: _formkey,
                           child: Column(
@@ -143,33 +141,33 @@ class _RegisterViewState extends State<RegisterView> {
                               const Text(
                                 ProjectStrings.personName,
                                 style: TextStyle(
-                                    color: Colors.black,
+                                    color: ProjectColors.black,
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.w500),
                               ),
-                              const SizedBox(
-                                height: 10.0,
-                              ),
+                              ConstantSizedBoxs.lowHeightSizedBox(),
                               Container(
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 1.0, color: Colors.black38),
-                                    borderRadius:
-                                        ProjectBorders.circularSmall()),
-                                child: RegisterTextFormField(controller: nameController,validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return ProjectStrings.errorName;
-                                    }
-                                    return null;
-                                },)
-                              ),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 1.0, color: ProjectColors.lowBlack),
+                                      borderRadius:
+                                          ProjectBorders.circularSmall()),
+                                  child: RegisterTextFormField(
+                                    controller: nameController,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return ProjectStrings.errorName;
+                                      }
+                                      return null;
+                                    },
+                                  )),
                               const SizedBox(
                                 height: 20.0,
                               ),
                               const Text(
-                                  ProjectStrings.emailName,
+                                ProjectStrings.emailName,
                                 style: TextStyle(
-                                    color: Colors.black,
+                                    color: ProjectColors.black,
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.w500),
                               ),
@@ -194,7 +192,7 @@ class _RegisterViewState extends State<RegisterView> {
                                       border: InputBorder.none,
                                       prefixIcon: Icon(
                                         Icons.mail_outline,
-                                        color: Color(0xFF7f30fe),
+                                        color: ProjectColors.iconPurple
                                       )),
                                 ),
                               ),
@@ -204,7 +202,7 @@ class _RegisterViewState extends State<RegisterView> {
                               const Text(
                                 ProjectStrings.passwordRegister,
                                 style: TextStyle(
-                                    color: Colors.black,
+                                    color: ProjectColors.black,
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.w500),
                               ),
@@ -214,8 +212,8 @@ class _RegisterViewState extends State<RegisterView> {
                               Container(
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                        width: 1.0, color: Colors.black38),
-                                    borderRadius: BorderRadius.circular(10)),
+                                        width: 1.0, color: ProjectColors.lowBlack),
+                                    borderRadius: ProjectBorders.circularSmall()),
                                 child: TextFormField(
                                   controller: passwordController,
                                   validator: (value) {
@@ -228,7 +226,7 @@ class _RegisterViewState extends State<RegisterView> {
                                       border: InputBorder.none,
                                       prefixIcon: Icon(
                                         Icons.password,
-                                        color: Color(0xFF7f30fe),
+                                        color: ProjectColors.iconPurple
                                       )),
                                   obscureText: true,
                                 ),
@@ -239,7 +237,7 @@ class _RegisterViewState extends State<RegisterView> {
                               const Text(
                                 ProjectStrings.passwordControl,
                                 style: TextStyle(
-                                    color: Colors.black,
+                                    color: ProjectColors.black,
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.w500),
                               ),
@@ -249,13 +247,14 @@ class _RegisterViewState extends State<RegisterView> {
                               Container(
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                        width: 1.0, color: Colors.black38),
-                                    borderRadius: BorderRadius.circular(10)),
+                                        width: 1.0, color: ProjectColors.lowBlack),
+                                    borderRadius: ProjectBorders.circularSmall()),
                                 child: TextFormField(
                                   controller: confirmPasswordController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return ProjectStrings.passwordControlError;
+                                      return ProjectStrings
+                                          .passwordControlError;
                                     }
                                     return null;
                                   },
@@ -263,7 +262,7 @@ class _RegisterViewState extends State<RegisterView> {
                                       border: InputBorder.none,
                                       prefixIcon: Icon(
                                         Icons.password,
-                                        color: Color(0xFF7f30fe),
+                                        color: ProjectColors.iconPurple
                                       )),
                                   obscureText: true,
                                 ),
@@ -277,7 +276,7 @@ class _RegisterViewState extends State<RegisterView> {
                                   const Text(
                                     ProjectStrings.alreadyAccount,
                                     style: TextStyle(
-                                        color: Colors.black, fontSize: 16.0),
+                                        color: ProjectColors.black, fontSize: 16.0),
                                   ),
                                   GestureDetector(
                                     onTap: () {
@@ -290,7 +289,7 @@ class _RegisterViewState extends State<RegisterView> {
                                     child: const Text(
                                       ProjectStrings.loginText,
                                       style: TextStyle(
-                                          color: Color(0xFF7f30fe),
+                                          color: ProjectColors.iconPurple,
                                           fontSize: 16.0,
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -303,9 +302,7 @@ class _RegisterViewState extends State<RegisterView> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
+                  ConstantSizedBoxs.normalHeightSizedBox(),
                   GestureDetector(
                     onTap: () {
                       if (_formkey.currentState!.validate()) {
@@ -328,13 +325,13 @@ class _RegisterViewState extends State<RegisterView> {
                           child: Container(
                             padding: const ProjectPaddings.allNormal(),
                             decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 169, 126, 235),
+                                color: ProjectColors.secondary,
                                 borderRadius: ProjectBorders.circularSmall()),
                             child: const Center(
                                 child: Text(
                               ProjectStrings.createText,
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: ProjectColors.white,
                                   fontSize: 18.0,
                                   fontWeight: FontWeight.bold),
                             )),

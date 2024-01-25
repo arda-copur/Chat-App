@@ -1,3 +1,5 @@
+import 'package:chat_app/constants/project_borders.dart';
+import 'package:chat_app/constants/project_colors.dart';
 import 'package:chat_app/constants/project_elevations.dart';
 import 'package:chat_app/constants/project_paddings.dart';
 import 'package:chat_app/constants/project_radius.dart';
@@ -67,20 +69,20 @@ class _ChatViewState extends State<ChatView> {
           padding: const ProjectPaddings.allMedium(),
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           decoration: BoxDecoration(
-               color: sendByMe ? const Color.fromARGB(255, 234, 236, 240): const Color.fromARGB(255, 211, 228, 243),
+               color: sendByMe ? ProjectColors.receivedMessage: ProjectColors.sendMessage,
               borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(24),
+                  topLeft: const ProjectRadius.customCircular(),
                   bottomRight: sendByMe
                       ? const Radius.circular(0)
-                      : const Radius.circular(24),
-                  topRight: const Radius.circular(24),
+                      : const ProjectRadius.customCircular(),
+                  topRight: const ProjectRadius.customCircular(),
                   bottomLeft: sendByMe
-                      ? const Radius.circular(24)
+                      ? const ProjectRadius.customCircular()
                       : const Radius.circular(0))),
           child: Text(
             message,
             style: const TextStyle(
-                color: Colors.black, fontSize: 15, fontWeight: FontWeight.w500),
+                color: ProjectColors.black, fontSize: 15, fontWeight: FontWeight.w500),
           ),
         )),
       ],
@@ -147,9 +149,9 @@ class _ChatViewState extends State<ChatView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF553370),
+      backgroundColor: ProjectColors.chatBackground,
       body: Container(
-        padding: const EdgeInsets.only(top: 60.0),
+        padding: const ProjectPaddings.onlyTop() * 6,
         child: Stack(
           children: [
             Container(
@@ -157,10 +159,10 @@ class _ChatViewState extends State<ChatView> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height / 1.12,
                 decoration: const BoxDecoration(
-                    color: Colors.white,
+                    color: ProjectColors.white,
                     borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30))),
+                        topLeft: ProjectRadius.circularLarge(),
+                        topRight: ProjectRadius.circularLarge(),)),
                 child: chatMessage()),
             Padding(
               padding: const ProjectPaddings.onlyLeft(),
@@ -175,7 +177,7 @@ class _ChatViewState extends State<ChatView> {
                     },
                     child: const Icon(
                       Icons.arrow_back_ios_new_outlined,
-                      color: Color(0Xffc199cd),
+                      color: ProjectColors.customWhite,
                     ),
                   ),
                   const SizedBox(
@@ -184,7 +186,7 @@ class _ChatViewState extends State<ChatView> {
                   Text(
                     widget.name,
                     style: const TextStyle(
-                        color: Color(0Xffc199cd),
+                        color: ProjectColors.customWhite,
                         fontSize: 20.0,
                         fontWeight: FontWeight.w500),
                   ),
@@ -200,8 +202,8 @@ class _ChatViewState extends State<ChatView> {
                 child: Container(
                   padding: const ProjectPaddings.allNormal(),
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30)),
+                      color: ProjectColors.white,
+                      borderRadius: ProjectBorders.circularSmall() * 3),
                   child: TextField(
                     controller: messageController,
                     decoration: InputDecoration(

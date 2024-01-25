@@ -5,6 +5,7 @@ import 'package:chat_app/constants/project_paddings.dart';
 import 'package:chat_app/constants/project_strings.dart';
 import 'package:chat_app/services/database.dart';
 import 'package:chat_app/services/shared_pref.dart';
+import 'package:chat_app/widgets/constant_sized_boxs.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/views/home_view.dart';
 import 'package:chat_app/views/register_view.dart';
@@ -88,16 +89,13 @@ class _LoginViewState extends State<LoginView> {
                       child: Text(
                     ProjectStrings.accountLogin,
                     style: TextStyle(
-                        color: Color(0xFFbbb0ff),
+                        color: ProjectColors.customWhite,
                         fontSize: 18.0,
                         fontWeight: FontWeight.w500),
                   )),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
+                 ConstantSizedBoxs.normalHeightSizedBox(),
                   Container(
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 20.0, horizontal: 20.0),
+                    margin: const ProjectPaddings.symmetricMedium(),
                     child: Material(
                       elevation: ProjectElevations.normal.value,
                       borderRadius: ProjectBorders.circularSmall(),
@@ -107,7 +105,7 @@ class _LoginViewState extends State<LoginView> {
                         height: MediaQuery.of(context).size.height / 1.6,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: ProjectColors.white,
                             borderRadius: ProjectBorders.circularSmall()),
                         child: Form(
                           key: _formkey,
@@ -117,7 +115,7 @@ class _LoginViewState extends State<LoginView> {
                               const Text(
                                 ProjectStrings.emailName,
                                 style: TextStyle(
-                                    color: Colors.black,
+                                    color: ProjectColors.black,
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.w500),
                               ),
@@ -127,7 +125,7 @@ class _LoginViewState extends State<LoginView> {
                               Container(
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                        width: 1.0, color: Colors.black38),
+                                        width: 1.0, color: ProjectColors.lowBlack),
                                     borderRadius:
                                         ProjectBorders.circularSmall()),
                                 child: TextFormField(
@@ -142,17 +140,15 @@ class _LoginViewState extends State<LoginView> {
                                       border: InputBorder.none,
                                       prefixIcon: Icon(
                                         Icons.mail_outline,
-                                        color: Color(0xFF7f30fe),
+                                        color: ProjectColors.iconPurple
                                       )),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 20.0,
-                              ),
+                              ConstantSizedBoxs.normalHeightSizedBox(),
                               const Text(
                                 ProjectStrings.passwordRegister,
                                 style: TextStyle(
-                                    color: Colors.black,
+                                    color: ProjectColors.black,
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.w500),
                               ),
@@ -162,7 +158,7 @@ class _LoginViewState extends State<LoginView> {
                               Container(
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                        width: 1.0, color: Colors.black38),
+                                        width: 1.0, color: ProjectColors.lowBlack),
                                     borderRadius: BorderRadius.circular(10)),
                                 child: TextFormField(
                                   controller: userPasswordController,
@@ -176,7 +172,7 @@ class _LoginViewState extends State<LoginView> {
                                       border: InputBorder.none,
                                       prefixIcon: Icon(
                                         Icons.password,
-                                        color: Color(0xFF7f30fe),
+                                        color: ProjectColors.iconPurple
                                       )),
                                   obscureText: true,
                                 ),
@@ -189,7 +185,7 @@ class _LoginViewState extends State<LoginView> {
                                 child: const Text(
                                   ProjectStrings.dontRememberPassword,
                                   style: TextStyle(
-                                      color: Colors.black,
+                                      color: ProjectColors.black,
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.w500),
                                 ),
@@ -223,7 +219,7 @@ class _LoginViewState extends State<LoginView> {
                                             child: Text(
                                           ProjectStrings.loginTitle,
                                           style: TextStyle(
-                                              color: Colors.white,
+                                              color: ProjectColors.white,
                                               fontSize: 18.0,
                                               fontWeight: FontWeight.bold),
                                         )),
@@ -246,7 +242,7 @@ class _LoginViewState extends State<LoginView> {
                     children: [
                       const Text(
                         ProjectStrings.notAccount,
-                        style: TextStyle(color: Colors.black, fontSize: 16.0),
+                        style: TextStyle(color: ProjectColors.black, fontSize: 16.0),
                       ),
                       GestureDetector(
                         onTap: () {
@@ -258,7 +254,7 @@ class _LoginViewState extends State<LoginView> {
                         child: const Text(
                           ProjectStrings.nowAccount,
                           style: TextStyle(
-                              color: Color(0xFF7f30fe),
+                              color: ProjectColors.customPurple,
                               fontSize: 16.0,
                               fontWeight: FontWeight.w500),
                         ),

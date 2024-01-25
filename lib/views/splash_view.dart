@@ -26,4 +26,6 @@ class _SplashViewState extends State<SplashView> {
       child: Image.asset("assets/splash.gif",fit: BoxFit.cover,),
     );
   }
+
+ 
 }

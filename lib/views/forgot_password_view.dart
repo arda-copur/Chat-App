@@ -1,3 +1,4 @@
+import 'package:chat_app/constants/project_colors.dart';
 import 'package:chat_app/constants/project_paddings.dart';
 import 'package:chat_app/constants/project_strings.dart';
 import 'package:chat_app/views/register_view.dart';
@@ -41,7 +42,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                        colors: [Color(0xFF7f30fe), Color(0xFF6380fb)],
+                        colors: [ProjectColors.primary, ProjectColors.customPurple],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight),
                     borderRadius: BorderRadius.vertical(
@@ -55,7 +56,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       child: Text(
                     ProjectStrings.dontRememberPassword,
                     style: TextStyle(
-                        color: Colors.white,
+                        color: ProjectColors.white,
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold),
                   )),
@@ -63,7 +64,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       child: Text(
                     ProjectStrings.oldEmail,
                     style: TextStyle(
-                        color: Color(0xFFbbb0ff),
+                        color: ProjectColors.iconPurple,
                         fontSize: 18.0,
                         fontWeight: FontWeight.w500),
                   )),
@@ -82,7 +83,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                         height: MediaQuery.of(context).size.height / 2.6,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: ProjectColors.white,
                             borderRadius: BorderRadius.circular(10)),
                         child: Form(
                           key: _formKey,
@@ -92,7 +93,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                               const Text(
                                 ProjectStrings.emailName,
                                 style: TextStyle(
-                                    color: Colors.black,
+                                    color: ProjectColors.black,
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.w500),
                               ),
@@ -102,7 +103,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                               Container(
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                        width: 1.0, color: Colors.black38),
+                                        width: 1.0, color: ProjectColors.lowBlack),
                                     borderRadius: BorderRadius.circular(10)),
                                 child: TextFormField(
                                   controller: userMailController,
@@ -116,7 +117,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                                       border: InputBorder.none,
                                       prefixIcon: Icon(
                                         Icons.mail_outline,
-                                        color: Color(0xFF7f30fe),
+                                        color: ProjectColors.iconPurple
                                       )),
                                 ),
                               ),
@@ -141,14 +142,14 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                                       child: Container(
                                         padding: const EdgeInsets.all(10),
                                         decoration: BoxDecoration(
-                                            color: const Color(0xFF6380fb),
+                                            color: ProjectColors.customPurple,
                                             borderRadius:
                                                 BorderRadius.circular(10)),
                                         child: const Center(
                                             child: Text(
                                           ProjectStrings.sendText,
                                           style: TextStyle(
-                                              color: Colors.white,
+                                              color: ProjectColors.white,
                                               fontSize: 18.0,
                                               fontWeight: FontWeight.bold),
                                         )),
@@ -171,7 +172,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     children: [
                       const Text(
                         ProjectStrings.notAccount,
-                        style: TextStyle(color: Colors.black, fontSize: 16.0),
+                        style: TextStyle(color: ProjectColors.black, fontSize: 16.0),
                       ),
                       GestureDetector(
                         onTap: () {
@@ -183,7 +184,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                         child: const Text(
                           ProjectStrings.nowAccount,
                           style: TextStyle(
-                              color: Color(0xFF7f30fe),
+                              color: ProjectColors.customPurple,
                               fontSize: 16.0,
                               fontWeight: FontWeight.w500),
                         ),

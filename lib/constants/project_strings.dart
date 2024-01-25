@@ -6,9 +6,10 @@ class ProjectStrings {
   static const String errorUser = "Kullanıcı bulunamadı";
   static const String wrongPassword = "Yanlış şifre";
   static const String errorAccount = "Hesap bulunamadı.";
-  
   //Onboarding
-
+  static const String skipText = "Geç";
+  static const String moveText = "İleri";
+  static const String okeyText = "Anladım";
   //Register
   static const String createAccount = "Hesap Oluştur";
   static const String newAccount = "Yeni bir hesap oluşturun";
@@ -34,6 +35,9 @@ class ProjectStrings {
   static const String passwordReset = "Şifre sıfırlama bağlantısı gönderildi.";
   static const String oldEmail = "Lütfen kayıtlı mail adresinizi girin";
   static const String sendText = "Gönder";
-
-
+  //Intro Pages
+  static const String firstDescription = "İstediğin kullanıcılarla sohbet et!";
+  static const String secondDescription = "Kullanıcı adını aratman yeterli...";
+  static const String thirdDescription = "Tıkla ve konuşmaya başla!";
+  
 }

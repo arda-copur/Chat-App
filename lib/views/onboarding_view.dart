@@ -1,3 +1,4 @@
+import 'package:chat_app/constants/project_strings.dart';
 import 'package:chat_app/views/register_view.dart';
 import 'package:chat_app/widgets/intro_pages/intro_page_first.dart';
 import 'package:chat_app/widgets/intro_pages/intro_page_second.dart';
@@ -41,7 +42,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 TextButton(
-                  child: const Text("Geç"),
+                  child: const Text(ProjectStrings.skipText),
                   onPressed: () {
                     _controller.jumpToPage(2);
                   },
@@ -49,7 +50,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                 SmoothPageIndicator(controller: _controller, count: 3),
                 onLastPage
                     ? TextButton(
-                        child: const Text("Anladım"),
+                        child: const Text(ProjectStrings.okeyText),
                         onPressed: () {
                           Navigator.pushReplacement(
                               context,
@@ -58,7 +59,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                         },
                       )
                     : TextButton(
-                        child: const Text("İleri"),
+                        child: const Text(ProjectStrings.moveText),
                         onPressed: () {
                           _controller.nextPage(
                               duration: const Duration(milliseconds: 500),

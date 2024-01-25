@@ -1,4 +1,5 @@
 import 'package:chat_app/constants/project_borders.dart';
+import 'package:chat_app/constants/project_colors.dart';
 import 'package:chat_app/constants/project_elevations.dart';
 import 'package:chat_app/constants/project_paddings.dart';
 import 'package:chat_app/constants/project_strings.dart';
@@ -65,7 +66,7 @@ class _LoginViewState extends State<LoginView> {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                        colors: [Color(0xFF7f30fe), Color(0xFF6380fb)],
+                        colors: [ProjectColors.secondary, ProjectColors.primary],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight),
                     borderRadius: BorderRadius.vertical(
@@ -215,7 +216,7 @@ class _LoginViewState extends State<LoginView> {
                                       child: Container(
                                         padding: const ProjectPaddings.allNormal(),
                                         decoration: BoxDecoration(
-                                            color: const Color(0xFF6380fb),
+                                            color:  ProjectColors.primary,
                                             borderRadius:
                                                 ProjectBorders.circularSmall(),),
                                         child: const Center(

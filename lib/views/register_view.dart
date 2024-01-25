@@ -1,9 +1,11 @@
 import 'package:chat_app/constants/project_borders.dart';
+import 'package:chat_app/constants/project_colors.dart';
 import 'package:chat_app/constants/project_paddings.dart';
 import 'package:chat_app/constants/project_strings.dart';
 import 'package:chat_app/services/database.dart';
 import 'package:chat_app/services/shared_pref.dart';
 import 'package:chat_app/views/home_view.dart';
+import 'package:chat_app/widgets/register/register_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/views/login_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -88,7 +90,7 @@ class _RegisterViewState extends State<RegisterView> {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                        colors: [Color(0xFF7f30fe), Color(0xFF6380fb)],
+                        colors: [Color.fromARGB(255, 145, 96, 224), ProjectColors.primary],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight),
                     borderRadius: BorderRadius.vertical(
@@ -154,21 +156,12 @@ class _RegisterViewState extends State<RegisterView> {
                                         width: 1.0, color: Colors.black38),
                                     borderRadius:
                                         ProjectBorders.circularSmall()),
-                                child: TextFormField(
-                                  controller: nameController,
-                                  validator: (value) {
+                                child: RegisterTextFormField(controller: nameController,validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return ProjectStrings.errorName;
                                     }
                                     return null;
-                                  },
-                                  decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      prefixIcon: Icon(
-                                        Icons.person_outline,
-                                        color: Color(0xFF7f30fe),
-                                      )),
-                                ),
+                                },)
                               ),
                               const SizedBox(
                                 height: 20.0,
@@ -335,7 +328,7 @@ class _RegisterViewState extends State<RegisterView> {
                           child: Container(
                             padding: const ProjectPaddings.allNormal(),
                             decoration: BoxDecoration(
-                                color: const Color(0xFF6380fb),
+                                color: Color.fromARGB(255, 169, 126, 235),
                                 borderRadius: ProjectBorders.circularSmall()),
                             child: const Center(
                                 child: Text(

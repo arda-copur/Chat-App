@@ -1,4 +1,7 @@
+import 'package:chat_app/constants/project_colors.dart';
+import 'package:chat_app/constants/project_strings.dart';
 import 'package:chat_app/utils/image_utils.dart';
+import 'package:chat_app/utils/text_theme_extension.dart';
 import 'package:chat_app/widgets/constant_sized_boxs.dart';
 import 'package:flutter/material.dart';
 
@@ -8,19 +11,14 @@ class IntroPageSecond extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
   return Scaffold(
-      backgroundColor: Colors.deepPurple[100],
+      backgroundColor: ProjectColors.primary,
       body: Column(
          mainAxisAlignment: MainAxisAlignment.center,
        children: [
-        Text("Artık mesajlaşmak çok kolay!",style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-          fontWeight: FontWeight.w800,color: Colors.black45,
-        ),
-        ),
-           Text("Yükle ve hemen arkadaşlarınla sohbet etmeye başla...",style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-          fontWeight: FontWeight.w800,color: Colors.grey[350],
+        Text(ProjectStrings.secondDescription,style: 
+        context.projectTheme().headlineSmall?.copyWith(fontWeight: FontWeight.w800,color: Colors.black45)
         ),
         
-        ),
         ConstantSizedBoxs.largeHeightSizedBox(),
         Center(
           child: 

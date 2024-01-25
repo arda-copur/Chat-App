@@ -6,7 +6,7 @@ import 'package:chat_app/services/database.dart';
 import 'package:chat_app/services/shared_pref.dart';
 import 'package:chat_app/views/chat_view.dart';
 import 'package:chat_app/views/login_view.dart';
-import 'package:chat_app/widgets/constant_sized_boxs.dart';
+import 'package:chat_app/widgets/sizedboxs/constant_sized_boxs.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 

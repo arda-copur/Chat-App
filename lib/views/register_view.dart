@@ -6,7 +6,7 @@ import 'package:chat_app/constants/project_strings.dart';
 import 'package:chat_app/services/database.dart';
 import 'package:chat_app/services/shared_pref.dart';
 import 'package:chat_app/views/home_view.dart';
-import 'package:chat_app/widgets/constant_sized_boxs.dart';
+import 'package:chat_app/widgets/sizedboxs/constant_sized_boxs.dart';
 import 'package:chat_app/widgets/textfields/password_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/views/login_view.dart';

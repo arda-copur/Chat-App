@@ -2,7 +2,7 @@ import 'package:chat_app/constants/project_colors.dart';
 import 'package:chat_app/constants/project_strings.dart';
 import 'package:chat_app/utils/image_utils.dart';
 import 'package:chat_app/utils/text_theme_extension.dart';
-import 'package:chat_app/widgets/constant_sized_boxs.dart';
+import 'package:chat_app/widgets/sizedboxs/constant_sized_boxs.dart';
 import 'package:flutter/material.dart';
 
 class IntroPageFirst extends StatelessWidget {

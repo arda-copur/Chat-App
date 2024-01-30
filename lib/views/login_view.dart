@@ -5,6 +5,7 @@ import 'package:chat_app/constants/project_paddings.dart';
 import 'package:chat_app/constants/project_strings.dart';
 import 'package:chat_app/services/database.dart';
 import 'package:chat_app/services/shared_pref.dart';
+import 'package:chat_app/utils/text_theme_extension.dart';
 import 'package:chat_app/views/forgot_password_view.dart';
 import 'package:chat_app/widgets/sizedboxs/constant_sized_boxs.dart';
 import 'package:flutter/material.dart';
@@ -76,38 +77,34 @@ class _LoginViewState extends State<LoginView> {
 
   Column loginMenu(BuildContext context) {
     return Column(
-              children: [
-                const Center(
-                    child: Text(
-                  ProjectStrings.welcomeText,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold),
-                )),
-                const Center(
-                    child: Text(
-                  ProjectStrings.accountLogin,
-                  style: TextStyle(
-                      color: ProjectColors.customWhite,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w500),
-                )),
-                ConstantSizedBoxs.normalHeightSizedBox(),
-                Container(
-                  margin: const ProjectPaddings.symmetricMedium(),
-                  child: Material(
-                    elevation: ProjectElevations.normal.value,
-                    borderRadius: ProjectBorders.circularSmall(),
-                    child: loginMenuContainer(context),
-                  ),
-                ),
-                const SizedBox(
-                  height: 40.0,
-                ),
-                notAccountWidget(context)
-              ],
-            );
+      children: [
+        Center(
+            child: Text(ProjectStrings.welcomeText,
+                style: context.projectTheme().titleLarge?.copyWith(
+                    color: ProjectColors.white, fontWeight: FontWeight.w600))),
+        const Center(
+            child: Text(
+          ProjectStrings.accountLogin,
+          style: TextStyle(
+              color: ProjectColors.customWhite,
+              fontSize: 18.0,
+              fontWeight: FontWeight.w500),
+        )),
+        ConstantSizedBoxs.normalHeightSizedBox(),
+        Container(
+          margin: const ProjectPaddings.symmetricMedium(),
+          child: Material(
+            elevation: ProjectElevations.normal.value,
+            borderRadius: ProjectBorders.circularSmall(),
+            child: loginMenuContainer(context),
+          ),
+        ),
+        const SizedBox(
+          height: 40.0,
+        ),
+        notAccountWidget(context)
+      ],
+    );
   }
 
   Container decorativeLoginContainer(BuildContext context) {
@@ -137,22 +134,22 @@ class _LoginViewState extends State<LoginView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               ProjectStrings.emailName,
-              style: TextStyle(
-                  color: ProjectColors.black,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w500),
+              style: context.projectTheme().titleMedium?.copyWith(
+                    color: ProjectColors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
             ),
             ConstantSizedBoxs.lowHeightSizedBox(),
             emailWidget(),
             ConstantSizedBoxs.normalHeightSizedBox(),
-            const Text(
+            Text(
               ProjectStrings.passwordRegister,
-              style: TextStyle(
-                  color: ProjectColors.black,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w500),
+              style: context.projectTheme().titleMedium?.copyWith(
+                    color: ProjectColors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
             ),
             ConstantSizedBoxs.lowHeightSizedBox(),
             passwordWidget(),

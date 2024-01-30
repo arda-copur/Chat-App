@@ -19,7 +19,8 @@ class IntroPageFirst extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Text(ProjectStrings.firstDescription,
                 style: context.projectTheme().headlineSmall?.copyWith(
-                    fontWeight: FontWeight.w800, color: ProjectColors.lowWhite)),
+                    fontWeight: FontWeight.w800,
+                    color: ProjectColors.lowWhite)),
           ),
           ConstantSizedBoxs.largeHeightSizedBox(),
           Center(

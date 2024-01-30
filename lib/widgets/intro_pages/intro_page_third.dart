@@ -10,22 +10,22 @@ class IntroPageThird extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: ProjectColors.infoBackground,
       body: Column(
-         mainAxisAlignment: MainAxisAlignment.center,
-       children: [
-        Text(ProjectStrings.thirdDescription,style: context.projectTheme().headlineSmall?.copyWith(fontWeight: FontWeight.w800,color: ProjectColors.lowWhite)
-        ),
-        ConstantSizedBoxs.largeHeightSizedBox(),
-        Center(
-          child: 
-          Image.asset(ImageItems.infoguy3.imagePath,
-          width: MediaQuery.of(context).size.width * 0.6,
-          ),
-        )
-      
-       ],
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(ProjectStrings.thirdDescription,
+              style: context.projectTheme().headlineSmall?.copyWith(
+                  fontWeight: FontWeight.w800, color: ProjectColors.lowWhite)),
+          ConstantSizedBoxs.largeHeightSizedBox(),
+          Center(
+            child: Image.asset(
+              ImageItems.infoguy3.imagePath,
+              width: MediaQuery.of(context).size.width * 0.6,
+            ),
+          )
+        ],
       ),
     );
   }

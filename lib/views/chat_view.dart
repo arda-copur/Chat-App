@@ -4,6 +4,7 @@ import 'package:chat_app/constants/project_elevations.dart';
 import 'package:chat_app/constants/project_paddings.dart';
 import 'package:chat_app/constants/project_radius.dart';
 import 'package:chat_app/services/database.dart';
+import 'package:chat_app/utils/text_theme_extension.dart';
 import 'package:chat_app/views/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/services/shared_pref.dart';
@@ -209,7 +210,7 @@ class _ChatViewState extends State<ChatView> {
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: "Mesaj gönder...",
-                        hintStyle: const TextStyle(color: Colors.black45),
+                        hintStyle: context.projectTheme().titleMedium?.copyWith(color: ProjectColors.white),
                         suffixIcon: GestureDetector(
                             onTap: () {
                               addMessage(true);

@@ -2,8 +2,11 @@ import 'package:chat_app/constants/project_borders.dart';
 import 'package:chat_app/constants/project_colors.dart';
 import 'package:chat_app/constants/project_elevations.dart';
 import 'package:chat_app/constants/project_paddings.dart';
+import 'package:chat_app/constants/project_radius.dart';
+import 'package:chat_app/constants/project_strings.dart';
 import 'package:chat_app/services/database.dart';
 import 'package:chat_app/services/shared_pref.dart';
+import 'package:chat_app/utils/text_theme_extension.dart';
 import 'package:chat_app/views/chat_view.dart';
 import 'package:chat_app/views/login_view.dart';
 import 'package:chat_app/widgets/sizedboxs/constant_sized_boxs.dart';
@@ -43,8 +46,8 @@ class _HomeViewState extends State<HomeView> {
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasError) {
           print("Error in StreamBuilder: ${snapshot.error}");
-          return Center(
-            child: Text("Bir hata oluştu."),
+          return const Center(
+            child: Text(ProjectStrings.streamError),
           );
         }
 
@@ -133,18 +136,19 @@ class _HomeViewState extends State<HomeView> {
                 search
                     ? Expanded(
                         child: TextField(
-                          onChanged: (value) {
-                            initiateSearch(value.toUpperCase());
-                          },
-                          decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Kullanıcı ara..",
-                              hintStyle: TextStyle(color: ProjectColors.black)),
-                          style: const TextStyle(
-                              color: ProjectColors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500),
-                        ),
+                            onChanged: (value) {
+                              initiateSearch(value.toUpperCase());
+                            },
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Kullanıcı ara..",
+                                hintStyle: context
+                                    .projectTheme()
+                                    .labelLarge
+                                    ?.copyWith(color: ProjectColors.black)),
+                            style: context.projectTheme().labelLarge?.copyWith(
+                                color: ProjectColors.black,
+                                fontWeight: FontWeight.w500)),
                       )
                     : GestureDetector(
                         onTap: () {
@@ -176,15 +180,11 @@ class _HomeViewState extends State<HomeView> {
                                 search = false;
                                 setState(() {});
                               },
-                              child: const Icon(
-                                Icons.close,
-                                color: ProjectColors.iconPurple
-                              ),
+                              child: const Icon(Icons.close,
+                                  color: ProjectColors.iconPurple),
                             )
-                          : const Icon(
-                              Icons.search,
-                              color: ProjectColors.iconPurple
-                            )),
+                          : const Icon(Icons.search,
+                              color: ProjectColors.iconPurple)),
                 )
               ],
             ),
@@ -199,8 +199,9 @@ class _HomeViewState extends State<HomeView> {
             decoration: const BoxDecoration(
                 color: ProjectColors.white,
                 borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20))),
+                  topLeft: ProjectRadius.circularNormal(),
+                  topRight: ProjectRadius.circularNormal(),
+                )),
             child: Column(children: [
               search
                   ? ListView(
@@ -242,7 +243,8 @@ class _HomeViewState extends State<HomeView> {
           child: Container(
             padding: const ProjectPaddings.allMedium(),
             decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                color: Colors.white,
+                borderRadius: ProjectBorders.circularSmall()),
             child: Row(
               children: [
                 ClipRRect(
@@ -259,18 +261,18 @@ class _HomeViewState extends State<HomeView> {
                   children: [
                     Text(
                       data["Name"],
-                      style: const TextStyle(
-                          color: ProjectColors.black,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18),
+                      style: context.projectTheme().titleMedium?.copyWith(
+                            color: ProjectColors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
                     ),
                     ConstantSizedBoxs.lowHeightSizedBox(),
                     Text(
                       data["Username"],
-                      style: const TextStyle(
-                          color: ProjectColors.black,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500),
+                      style: context.projectTheme().titleMedium?.copyWith(
+                            color: ProjectColors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
                     )
                   ],
                 )
@@ -345,7 +347,7 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             profilePicUrl == ""
-                ? CircularProgressIndicator()
+                ? const CircularProgressIndicator()
                 : ClipRRect(
                     borderRadius: ProjectBorders.circularSmall() * 6,
                     child: Image.network(
@@ -361,27 +363,27 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
                 ConstantSizedBoxs.lowHeightSizedBox(),
                 Text(
                   username,
-                  style: const TextStyle(
-                      color: ProjectColors.black,
-                      fontSize: 17.0,
-                      fontWeight: FontWeight.w500),
+                  style: context.projectTheme().titleMedium?.copyWith(
+                        color: ProjectColors.black,
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
                 Text(
                   widget.lastMessage,
-                  style: const TextStyle(
-                      color: ProjectColors.lowBlack,
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.w500),
+                  style: context.projectTheme().titleMedium?.copyWith(
+                        color: ProjectColors.black,
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
               ],
             ),
             const Spacer(),
             Text(
               widget.time,
-              style: const TextStyle(
-                  color: ProjectColors.lowBlack,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500),
+              style: context.projectTheme().titleMedium?.copyWith(
+                            color: ProjectColors.black,
+                            fontWeight: FontWeight.w400,
+                          ),
             ),
           ],
         ),

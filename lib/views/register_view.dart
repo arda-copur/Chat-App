@@ -5,6 +5,7 @@ import 'package:chat_app/constants/project_paddings.dart';
 import 'package:chat_app/constants/project_strings.dart';
 import 'package:chat_app/services/database.dart';
 import 'package:chat_app/services/shared_pref.dart';
+import 'package:chat_app/utils/text_theme_extension.dart';
 import 'package:chat_app/views/home_view.dart';
 import 'package:chat_app/widgets/sizedboxs/constant_sized_boxs.dart';
 import 'package:chat_app/widgets/textfields/password_text_form_field.dart';
@@ -92,22 +93,17 @@ class _RegisterViewState extends State<RegisterView> {
               padding: const ProjectPaddings.onlyTop() * 7,
               child: Column(
                 children: [
-                  const Center(
-                      child: Text(
-                    ProjectStrings.createAccount,
-                    style: TextStyle(
-                        color: ProjectColors.white,
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.bold),
-                  )),
-                  const Center(
-                      child: Text(
-                    ProjectStrings.newAccount,
-                    style: TextStyle(
-                        color: ProjectColors.customWhite,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w500),
-                  )),
+                  Center(
+                      child: Text(ProjectStrings.createAccount,
+                          style: context
+                              .projectTheme()
+                              .headlineSmall
+                              ?.copyWith(color: ProjectColors.white))),
+                  Center(
+                      child: Text(ProjectStrings.newAccount,
+                          style: context.projectTheme().titleMedium?.copyWith(
+                              color: ProjectColors.customWhite,
+                              fontWeight: FontWeight.bold))),
                   ConstantSizedBoxs.normalHeightSizedBox(),
                   RegisterMenu(context),
                   ConstantSizedBoxs.normalHeightSizedBox(),
@@ -161,49 +157,31 @@ class _RegisterViewState extends State<RegisterView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          ProjectStrings.personName,
-          style: TextStyle(
-              color: ProjectColors.black,
-              fontSize: 18.0,
-              fontWeight: FontWeight.w500),
-        ),
+        Text(ProjectStrings.personName,
+            style: context.projectTheme().titleMedium?.copyWith(
+                color: ProjectColors.white, fontWeight: FontWeight.bold)),
         ConstantSizedBoxs.lowHeightSizedBox(),
         Container(
             decoration: BoxDecoration(
                 border: Border.all(width: 1.0, color: ProjectColors.lowBlack),
                 borderRadius: ProjectBorders.circularSmall()),
             child: nameTextFormField()),
-        const SizedBox(
-          height: 20.0,
-        ),
-        const Text(
-          ProjectStrings.emailName,
-          style: TextStyle(
-              color: ProjectColors.black,
-              fontSize: 18.0,
-              fontWeight: FontWeight.w500),
-        ),
-        const SizedBox(
-          height: 10.0,
-        ),
+        ConstantSizedBoxs.normalHeightSizedBox(),
+        Text(ProjectStrings.emailName,
+            style: context.projectTheme().titleMedium?.copyWith(
+                color: ProjectColors.white, fontWeight: FontWeight.bold)),
+        ConstantSizedBoxs.lowHeightSizedBox(),
         Container(
           decoration: BoxDecoration(
-              border: Border.all(width: 1.0, color: Colors.black38),
+              border: Border.all(width: 1.0, color: ProjectColors.lowBlack),
               borderRadius: ProjectBorders.circularSmall()),
           child: mailTextFormField(),
         ),
         ConstantSizedBoxs.normalHeightSizedBox(),
-        const Text(
-          ProjectStrings.passwordRegister,
-          style: TextStyle(
-              color: ProjectColors.black,
-              fontSize: 18.0,
-              fontWeight: FontWeight.w500),
-        ),
-        const SizedBox(
-          height: 10.0,
-        ),
+        Text(ProjectStrings.passwordRegister,
+            style: context.projectTheme().titleMedium?.copyWith(
+                color: ProjectColors.white, fontWeight: FontWeight.bold)),
+        ConstantSizedBoxs.lowHeightSizedBox(),
         Container(
           decoration: BoxDecoration(
               border: Border.all(width: 1.0, color: ProjectColors.lowBlack),
@@ -219,13 +197,9 @@ class _RegisterViewState extends State<RegisterView> {
           ),
         ),
         ConstantSizedBoxs.normalHeightSizedBox(),
-        const Text(
-          ProjectStrings.passwordControl,
-          style: TextStyle(
-              color: ProjectColors.black,
-              fontSize: 18.0,
-              fontWeight: FontWeight.w500),
-        ),
+        Text(ProjectStrings.passwordControl,
+            style: context.projectTheme().titleMedium?.copyWith(
+                color: ProjectColors.black, fontWeight: FontWeight.bold)),
         ConstantSizedBoxs.lowHeightSizedBox(),
         Container(
           decoration: BoxDecoration(
@@ -285,22 +259,18 @@ class _RegisterViewState extends State<RegisterView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
-          ProjectStrings.alreadyAccount,
-          style: TextStyle(color: ProjectColors.black, fontSize: 16.0),
-        ),
+        Text(ProjectStrings.alreadyAccount,
+            style: context.projectTheme().titleMedium?.copyWith(
+                color: ProjectColors.black, fontWeight: FontWeight.bold)),
         GestureDetector(
           onTap: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const LoginView()));
           },
-          child: const Text(
-            ProjectStrings.loginText,
-            style: TextStyle(
-                color: ProjectColors.iconPurple,
-                fontSize: 16.0,
-                fontWeight: FontWeight.w500),
-          ),
+          child: Text(ProjectStrings.loginText,
+              style: context.projectTheme().titleMedium?.copyWith(
+                  color: ProjectColors.iconPurple,
+                  fontWeight: FontWeight.bold)),
         )
       ],
     );
@@ -336,14 +306,11 @@ class _RegisterViewState extends State<RegisterView> {
             decoration: BoxDecoration(
                 color: ProjectColors.secondary,
                 borderRadius: ProjectBorders.circularSmall()),
-            child: const Center(
-                child: Text(
-              ProjectStrings.createText,
-              style: TextStyle(
-                  color: ProjectColors.white,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold),
-            )),
+            child: Center(
+                child: Text(ProjectStrings.createText,
+                    style: context.projectTheme().titleMedium?.copyWith(
+                        color: ProjectColors.white,
+                        fontWeight: FontWeight.bold))),
           ),
         ),
       ),

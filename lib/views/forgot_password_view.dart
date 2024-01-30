@@ -1,7 +1,10 @@
+import 'package:chat_app/constants/project_borders.dart';
 import 'package:chat_app/constants/project_colors.dart';
 import 'package:chat_app/constants/project_paddings.dart';
 import 'package:chat_app/constants/project_strings.dart';
+import 'package:chat_app/utils/text_theme_extension.dart';
 import 'package:chat_app/views/register_view.dart';
+import 'package:chat_app/widgets/sizedboxs/constant_sized_boxs.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -21,8 +24,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   resetPassword() async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(ProjectStrings.passwordReset)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(ProjectStrings.passwordReset)));
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
         ScaffoldMessenger.of(context)
@@ -41,10 +44,10 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 height: MediaQuery.of(context).size.height / 2.5,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                        colors: [ProjectColors.primary, ProjectColors.customPurple],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight),
+                    gradient: const LinearGradient(colors: [
+                      ProjectColors.primary,
+                      ProjectColors.customPurple
+                    ], begin: Alignment.topLeft, end: Alignment.bottomRight),
                     borderRadius: BorderRadius.vertical(
                         bottom: Radius.elliptical(
                             MediaQuery.of(context).size.width, 105)))),
@@ -52,13 +55,12 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
               padding: const ProjectPaddings.allNormal() * 7,
               child: Column(
                 children: [
-                  const Center(
+                  Center(
                       child: Text(
                     ProjectStrings.dontRememberPassword,
-                    style: TextStyle(
+                    style: context.projectTheme().headlineSmall?.copyWith(
                         color: ProjectColors.white,
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.w600),
                   )),
                   const Center(
                       child: Text(
@@ -68,12 +70,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                         fontSize: 18.0,
                         fontWeight: FontWeight.w500),
                   )),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
+                  ConstantSizedBoxs.normalHeightSizedBox(),
                   Container(
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 20.0, horizontal: 20.0),
+                    margin: const ProjectPaddings.symmetricMedium(),
                     child: Material(
                       elevation: 5.0,
                       borderRadius: BorderRadius.circular(10),
@@ -84,27 +83,29 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                             color: ProjectColors.white,
-                            borderRadius: BorderRadius.circular(10)),
+                            borderRadius: ProjectBorders.circularSmall()),
                         child: Form(
                           key: _formKey,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                ProjectStrings.emailName,
-                                style: TextStyle(
-                                    color: ProjectColors.black,
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.w500),
-                              ),
+                              Text(ProjectStrings.emailName,
+                                  style: context
+                                      .projectTheme()
+                                      .titleMedium
+                                      ?.copyWith(
+                                          color: ProjectColors.black,
+                                          fontWeight: FontWeight.w500)),
                               const SizedBox(
                                 height: 10.0,
                               ),
                               Container(
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                        width: 1.0, color: ProjectColors.lowBlack),
-                                    borderRadius: BorderRadius.circular(10)),
+                                        width: 1.0,
+                                        color: ProjectColors.lowBlack),
+                                    borderRadius:
+                                        ProjectBorders.circularSmall()),
                                 child: TextFormField(
                                   controller: userMailController,
                                   validator: (value) {
@@ -115,10 +116,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                                   },
                                   decoration: const InputDecoration(
                                       border: InputBorder.none,
-                                      prefixIcon: Icon(
-                                        Icons.mail_outline,
-                                        color: ProjectColors.iconPurple
-                                      )),
+                                      prefixIcon: Icon(Icons.mail_outline,
+                                          color: ProjectColors.iconPurple)),
                                 ),
                               ),
                               const SizedBox(
@@ -138,20 +137,17 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                                     width: 150,
                                     child: Material(
                                       elevation: 5.0,
-                                      borderRadius: BorderRadius.circular(10),
+                                      borderRadius: ProjectBorders.circularSmall(),
                                       child: Container(
-                                        padding: const EdgeInsets.all(10),
+                                        padding: const ProjectPaddings.allNormal(),
                                         decoration: BoxDecoration(
                                             color: ProjectColors.customPurple,
                                             borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: const Center(
+                                                ProjectBorders.circularSmall(),),
+                                        child:  Center(
                                             child: Text(
                                           ProjectStrings.sendText,
-                                          style: TextStyle(
-                                              color: ProjectColors.white,
-                                              fontSize: 18.0,
-                                              fontWeight: FontWeight.bold),
+                                          style: context.projectTheme().titleMedium?.copyWith(color: ProjectColors.white)
                                         )),
                                       ),
                                     ),
@@ -170,9 +166,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
+                       Text(
                         ProjectStrings.notAccount,
-                        style: TextStyle(color: ProjectColors.black, fontSize: 16.0),
+                        style: context.projectTheme().titleMedium?.copyWith(color: ProjectColors.black)
                       ),
                       GestureDetector(
                         onTap: () {
@@ -181,9 +177,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                               MaterialPageRoute(
                                   builder: (context) => const RegisterView()));
                         },
-                        child: const Text(
+                        child:  Text(
                           ProjectStrings.nowAccount,
-                          style: TextStyle(
+                          style: context.projectTheme().titleMedium?.copyWith(
                               color: ProjectColors.customPurple,
                               fontSize: 16.0,
                               fontWeight: FontWeight.w500),

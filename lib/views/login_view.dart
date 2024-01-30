@@ -137,7 +137,7 @@ class _LoginViewState extends State<LoginView> {
             Text(
               ProjectStrings.emailName,
               style: context.projectTheme().titleMedium?.copyWith(
-                    color: ProjectColors.black,
+                    color: ProjectColors.iconPurple,
                     fontWeight: FontWeight.w500,
                   ),
             ),
@@ -147,7 +147,7 @@ class _LoginViewState extends State<LoginView> {
             Text(
               ProjectStrings.passwordRegister,
               style: context.projectTheme().titleMedium?.copyWith(
-                    color: ProjectColors.black,
+                    color: ProjectColors.iconPurple,
                     fontWeight: FontWeight.w500,
                   ),
             ),

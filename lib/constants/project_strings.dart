@@ -43,5 +43,7 @@ class ProjectStrings {
   static const String usersCollection = "users";
   static const String chatRoomsCollection = "chatrooms";
   static const String chatsCollection = "chats";
+  //Errors
+  static const String streamError = "Bir hata oluştu";
   
 }

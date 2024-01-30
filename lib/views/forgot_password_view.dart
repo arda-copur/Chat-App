@@ -94,7 +94,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                                       .projectTheme()
                                       .titleMedium
                                       ?.copyWith(
-                                          color: ProjectColors.black,
+                                          color: ProjectColors.iconPurple,
                                           fontWeight: FontWeight.w500)),
                               const SizedBox(
                                 height: 10.0,

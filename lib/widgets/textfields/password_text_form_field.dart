@@ -25,7 +25,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
       validator: widget.validator,
       decoration: RegisterInputDecoration(
         InputBorder.none,
-        const Icon(Icons.password),
+        const Icon(Icons.password,color: ProjectColors.iconPurple,),
         GestureDetector(
           child: isVisible.value
               ?  eyeIcon()

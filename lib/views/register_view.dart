@@ -159,7 +159,7 @@ class _RegisterViewState extends State<RegisterView> {
       children: [
         Text(ProjectStrings.personName,
             style: context.projectTheme().titleMedium?.copyWith(
-                color: ProjectColors.white, fontWeight: FontWeight.bold)),
+                color: ProjectColors.iconPurple, fontWeight: FontWeight.bold)),
         ConstantSizedBoxs.lowHeightSizedBox(),
         Container(
             decoration: BoxDecoration(
@@ -169,7 +169,7 @@ class _RegisterViewState extends State<RegisterView> {
         ConstantSizedBoxs.normalHeightSizedBox(),
         Text(ProjectStrings.emailName,
             style: context.projectTheme().titleMedium?.copyWith(
-                color: ProjectColors.white, fontWeight: FontWeight.bold)),
+                color: ProjectColors.iconPurple, fontWeight: FontWeight.bold)),
         ConstantSizedBoxs.lowHeightSizedBox(),
         Container(
           decoration: BoxDecoration(
@@ -180,7 +180,7 @@ class _RegisterViewState extends State<RegisterView> {
         ConstantSizedBoxs.normalHeightSizedBox(),
         Text(ProjectStrings.passwordRegister,
             style: context.projectTheme().titleMedium?.copyWith(
-                color: ProjectColors.white, fontWeight: FontWeight.bold)),
+                color: ProjectColors.iconPurple, fontWeight: FontWeight.bold)),
         ConstantSizedBoxs.lowHeightSizedBox(),
         Container(
           decoration: BoxDecoration(
@@ -199,7 +199,7 @@ class _RegisterViewState extends State<RegisterView> {
         ConstantSizedBoxs.normalHeightSizedBox(),
         Text(ProjectStrings.passwordControl,
             style: context.projectTheme().titleMedium?.copyWith(
-                color: ProjectColors.black, fontWeight: FontWeight.bold)),
+                color: ProjectColors.iconPurple, fontWeight: FontWeight.bold)),
         ConstantSizedBoxs.lowHeightSizedBox(),
         Container(
           decoration: BoxDecoration(
@@ -261,7 +261,7 @@ class _RegisterViewState extends State<RegisterView> {
       children: [
         Text(ProjectStrings.alreadyAccount,
             style: context.projectTheme().titleMedium?.copyWith(
-                color: ProjectColors.black, fontWeight: FontWeight.bold)),
+                color: ProjectColors.lowBlack, fontWeight: FontWeight.bold)),
         GestureDetector(
           onTap: () {
             Navigator.push(context,

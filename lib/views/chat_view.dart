@@ -3,8 +3,8 @@ import 'package:chat_app/constants/project_colors.dart';
 import 'package:chat_app/constants/project_elevations.dart';
 import 'package:chat_app/constants/project_paddings.dart';
 import 'package:chat_app/constants/project_radius.dart';
-import 'package:chat_app/services/database.dart';
 import 'package:chat_app/utils/text_theme_extension.dart';
+import 'package:chat_app/viewmodels/chat_viewmodel.dart';
 import 'package:chat_app/views/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/services/shared_pref.dart';
@@ -24,41 +24,7 @@ class ChatView extends StatefulWidget {
   State<ChatView> createState() => _ChatViewState();
 }
 
-class _ChatViewState extends State<ChatView> {
-  final TextEditingController messageController = TextEditingController();
-  String? myUserName, myProfilePic, myName, myEmail, messageId, chatRoomId;
-  Stream? messageStream;
-
-  getSharedPref() async {
-    myUserName = await SharedPreferenceHelper().getUserName();
-    myProfilePic = await SharedPreferenceHelper().getUserPic();
-    myName = await SharedPreferenceHelper().getDisplayName();
-    myEmail = await SharedPreferenceHelper().getUserEmail();
-
-    chatRoomId = getChatRoomIdByUser(widget.username, myUserName!);
-    setState(() {});
-  }
-
-  onTheLoad() async {
-    await getSharedPref();
-    await getAndSetMessages();
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    onTheLoad();
-  }
-
-  getChatRoomIdByUser(String a, String b) {
-    if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
-      return "$b\_$a";
-    } else {
-      return "$a\_$b";
-    }
-  }
-
+class _ChatViewState extends ChatViewModel {
   Widget chatMessageTile(String message, bool sendByMe) {
     return Row(
       mainAxisAlignment:
@@ -66,11 +32,12 @@ class _ChatViewState extends State<ChatView> {
       children: [
         Flexible(
             child: Container(
-
           padding: const ProjectPaddings.allMedium(),
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           decoration: BoxDecoration(
-               color: sendByMe ? ProjectColors.receivedMessage: ProjectColors.sendMessage,
+              color: sendByMe
+                  ? ProjectColors.receivedMessage
+                  : ProjectColors.sendMessage,
               borderRadius: BorderRadius.only(
                   topLeft: const ProjectRadius.customCircular(),
                   bottomRight: sendByMe
@@ -83,7 +50,9 @@ class _ChatViewState extends State<ChatView> {
           child: Text(
             message,
             style: const TextStyle(
-                color: ProjectColors.black, fontSize: 15, fontWeight: FontWeight.w500),
+                color: ProjectColors.black,
+                fontSize: 15,
+                fontWeight: FontWeight.w500),
           ),
         )),
       ],
@@ -108,45 +77,6 @@ class _ChatViewState extends State<ChatView> {
         });
   }
 
-  addMessage(bool sendClicked) {
-    if (messageController.text != "") {
-      String message = messageController.text;
-      messageController.text = "";
-      DateTime now = DateTime.now();
-      String formattedDate = DateFormat("h:mma").format(now);
-      Map<String, dynamic> messageInfoMap = {
-        "message": message,
-        "sendBy": myUserName,
-        "ts": formattedDate,
-        "time": FieldValue.serverTimestamp(),
-        "imgUrl": myProfilePic,
-      };
-
-      messageId ??= randomAlphaNumeric(10);
-
-      DatabaseMethods()
-          .addMessage(chatRoomId!, messageId!, messageInfoMap)
-          .then((value) {
-        Map<String, dynamic> lastMessageInfoMap = {
-          "lastMessage": message,
-          "lastMessageSendTs": formattedDate,
-          "time": FieldValue.serverTimestamp(),
-          "lastMessageSendBy": myUserName,
-        };
-        DatabaseMethods()
-            .updateLastMessageSend(chatRoomId!, lastMessageInfoMap);
-        if (sendClicked) {
-          messageId = null;
-        }
-      });
-    }
-  }
-
-  getAndSetMessages() async {
-    messageStream = await DatabaseMethods().getChatRoomMessages(chatRoomId);
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,8 +92,9 @@ class _ChatViewState extends State<ChatView> {
                 decoration: const BoxDecoration(
                     color: ProjectColors.white,
                     borderRadius: BorderRadius.only(
-                        topLeft: ProjectRadius.circularLarge(),
-                        topRight: ProjectRadius.circularLarge(),)),
+                      topLeft: ProjectRadius.circularLarge(),
+                      topRight: ProjectRadius.circularLarge(),
+                    )),
                 child: chatMessage()),
             Padding(
               padding: const ProjectPaddings.onlyLeft(),
@@ -210,7 +141,10 @@ class _ChatViewState extends State<ChatView> {
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: "Mesaj gönder...",
-                        hintStyle: context.projectTheme().titleMedium?.copyWith(color: ProjectColors.white),
+                        hintStyle: context
+                            .projectTheme()
+                            .titleMedium
+                            ?.copyWith(color: ProjectColors.white),
                         suffixIcon: GestureDetector(
                             onTap: () {
                               addMessage(true);
